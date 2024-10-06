@@ -20,6 +20,12 @@
 <img src="./img/violent%20python%20image.jpg" alt="violent python" width="120"/> 
 
 - [Password Cracker](https://github.com/sassom2112/ideal-rotary-phone.git) - A project that demonstrates unix_crypt(3) and modern SHA512 salting approaches. Highlights the importance of strong hashing and salting practices.
-- [Other Project 2](#) - Description of another project.
+- [TCP Scanner](https://github.com/sassom2112/shiny-octo-happiness.git) - A project that demostrates how to scan TCP ports on a target host and retrieve service banners from open ports. It highlights the importance of network reconnaissance techniques for identifying open services and securing network infrastructure.
 - [Other Project 3](#) - Description of another project.
 
+## Malware Data Science Projects
+<img src="./img/malware_data_science.jpg" alt="malware data science" width="120"/> 
+
+- [Other Project 1](#) - Description of another project.
+- [Other Project 2](#) - Description of another project.
+- [Other Project 3](#) - Description of another project.
