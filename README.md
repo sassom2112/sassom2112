@@ -29,3 +29,9 @@
 - [Other Project 1](#) - Description of another project.
 - [Other Project 2](#) - Description of another project.
 - [Other Project 3](#) - Description of another project.
+
+## C Projects
+
+- [Windows Memory Management](https://github.com/sassom2112/Windows-Memory-Management) - A project that demostrates the significance in properly freeing memory to prevent leaks.
+- [Other Project 2](#) - Description of another project.
+- [Other Project 3](#) - Description of another project.
