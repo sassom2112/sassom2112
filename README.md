@@ -4,9 +4,9 @@
 ### **MIT xPro** - Deep Learning: Mastering Neural Networks
 <img src="./img/Deep Learning_ Mastering Neural Networks.png" alt="6.S191" width="180"/>
 
+- [Regression Optimization](https://github.com/sassom2112/module_1_regression_optimization) - This linear regression project that explores manually fitting vs automatic fitting using gradient descent optimization for linear regression.
 
-- [Regression Optimization](https://github.com/sassom2112/module_1_regression_optimization) - A project that explores manually fitting vs automatic fitting using gradient descent optimization for linear regression.
-- [Training a Single Neuron Classifier](https://github.com/sassom2112/fuzzy-palm-tree.git) - A project that addresses a binary classification problem, predicting wine color (red or white) based on chemical features like acidity and alcohol content. It compares two approaches: manual implementation vs. scikit-learn, demonstrating the convenience and efficiency of using pre-built machine learning tools.
+- [Training a Single Neuron Classifier](https://github.com/sassom2112/fuzzy-palm-tree.git) - This logistic regression project addresses a binary classification problem, predicting wine color (red or white) based on chemical features like acidity and alcohol content. It compares two approaches: manual implementation vs. scikit-learn, demonstrating the convenience and efficiency of using pre-built machine learning tools.
 - [Other Project 3](#) - Description of another project.
 
 ## **MIT** 6.S191 - Introduction to Deep Learning
