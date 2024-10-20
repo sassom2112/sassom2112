@@ -19,3 +19,4 @@
 
 - [Windows Memory Management](https://github.com/sassom2112/Windows-Memory-Management) - A project that demostrates the significance in properly freeing memory to prevent leaks.
 - [Contact Management]( https://github.com/sassom2112/reimagined-carnival.git) - A contact management system that uses Firebase Firestore for real-time CRUD operations, allowing users to add, edit, delete, and search contacts. It features a responsive design, ensuring smooth functionality across both desktop and mobile devices.
+- [Packing List App](https://github.com/sassom2112/fictional-spoon) - A React-based packing list app that allows users to add, remove, and toggle the packed status of items for a trip. It displays real-time statistics on the total number of items and how many have been packed, providing an easy way to manage travel preparations.
