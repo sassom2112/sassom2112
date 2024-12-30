@@ -1,12 +1,13 @@
-# Cloud & Security Specialist | Cybersecurity Enthusiast
+# Cybersecurity & Machine Learning Specialist | Security-Driven ML Innovator
 
 ## 🔐 Cybersecurity Projects
 
 - [Exploratory Data Analysis and Preprocessing of the UNSW-NB15 Network Traffic Dataset](#)  
   This project involves the exploratory data analysis (EDA) and preprocessing of the UNSW-NB15 dataset, which contains network traffic data for intrusion detection. The analysis includes cleaning, feature engineering, and visualizing distributions to prepare the dataset for modeling and further investigation of network security threats.
-  
-  ![Attack Behaviors](./img/attack_behaviours.png)
-  ![Attack Behaviors 1](./img/attack_behaviours1.png)
+ 
+  <img src="./img/attack_behaviours.png" alt="Attack Behaviors" width="390"/>
+  <img src="./img/attack_behaviours1.png" alt="Attack Behaviors 1" width="350"/>
+
 
 - [Password Cracker](https://github.com/sassom2112/ideal-rotary-phone.git) - A project that demonstrates unix_crypt(3) and modern SHA512 salting approaches. Highlights the importance of strong hashing and salting practices.
   
