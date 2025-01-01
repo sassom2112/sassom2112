@@ -2,7 +2,7 @@
 
 ## 🔐 Cybersecurity Projects
 
-- [Exploratory Data Analysis and Preprocessing of the UNSW-NB15 Network Traffic Dataset](#)  
+- [Exploratory Data Analysis and Preprocessing of the UNSW-NB15 Network Traffic Dataset](https://github.com/sassom2112/congenial-lamp)  
   This project involves the exploratory data analysis (EDA) and preprocessing of the UNSW-NB15 dataset, which contains network traffic data for intrusion detection. The analysis includes cleaning, feature engineering, and visualizing distributions to prepare the dataset for modeling and further investigation of network security threats.
  
   <img src="./img/attack_behaviours.png" alt="Attack Behaviors" width="390"/>
