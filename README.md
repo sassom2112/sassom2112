@@ -11,23 +11,6 @@
 
 A dual-agent AI that autonomously investigates Windows disk images for compromise — then audits its own findings.
 
-**Why two agents?** LLMs hallucinate. In forensics, a hallucinated finding is a false accusation. ADVERSA borrows from adversarial ML: the agent that *finds* evidence and the agent that *verifies* it are structurally independent. On live case data, the Forensic Auditor caught 2 false positives the triage pass scored as HIGH confidence.
-
-| What | How |
-|------|-----|
-| Triage Agent | Two-pass SIFT + Claude agentic loop (75 tool calls per host) |
-| Forensic Auditor | Independent re-verification — re-runs tools from scratch, demands bytes on disk |
-| MCP tool server | 4-layer security boundary: blocklist → binary allowlist → pipe parser → redirect guard |
-| Adversarial training | Red Agent generates evasions, Blue Agent learns to catch them — 3,000 iterations, 0 human interventions |
-| Coverage | 11 operational rules · 9 MITRE ATT&CK techniques · Sigma rule export |
-
-**Results — SANS FIND EVIL! 2026 live case data:**
-
-| Host | Score | Auditor caught |
-|------|-------|----------------|
-| tdungan | 100/100 | — |
-| nfury | 95/100 | — |
-| controller | 50/100 | 2 false positives refuted |
 
 **Training self-correction:** domain gap at iteration ~10 collapsed detection to 10%. Red vs Blue loop autonomously recovered to 75% F1 with zero human intervention. 1,245 evasion variants evolved, 83 signals learned.
 
@@ -38,11 +21,8 @@ A dual-agent AI that autonomously investigates Windows disk images for compromis
 | Project | What it is |
 |---------|-----------|
 | [UNSW-NB15 Intrusion Detection](https://github.com/sassom2112/congenial-lamp) | Full ML lifecycle on 2.54M real network flows — EDA → sklearn Pipeline → XGBoost → SHAP. **F1: 0.9640 · ROC-AUC: 0.9997** |
-| [TCP Scanner + Banner Grabber](https://github.com/sassom2112/shiny-octo-happiness.git) | Maps open ports, pulls service banners, surfaces attack surface. |
-| [Password Cracker](https://github.com/sassom2112/ideal-rotary-phone.git) | unix_crypt(3) vs SHA512 salting. Why weak hashing fails, demonstrated. |
-| [Windows Memory Management](https://github.com/sassom2112/Windows-Memory-Management) | Memory leak exploitation via improper deallocation. |
 
-<img src="./img/attack_behaviours.png" alt="Attack Behaviors" width="360"/> <img src="./img/attack_behaviours1.png" alt="Attack Behaviors 1" width="320"/>
+<img src="./img/fig_roc_curves.png" alt="ROC Curves — XGBoost ROC-AUC 0.9997" width="370"/> <img src="./img/fig_shap_beeswarm.png" alt="SHAP Beeswarm — Feature Explainability" width="350"/>
 
 ---
 
