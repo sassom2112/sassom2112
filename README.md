@@ -1,71 +1,88 @@
-# Cybersecurity & Machine Learning Specialist | Security-Driven ML Innovator
+# Security Researcher · Agentic AI Engineer · Data Scientist
 
-## 🔐 Cybersecurity Projects
+> Offensive security meets adversarial ML — building systems that think, investigate, and defend.
+> I build MCP tool servers, dual-agent forensic pipelines, and production ML systems with real results.
 
-- [Exploratory Data Analysis and Preprocessing of the UNSW-NB15 Network Traffic Dataset](https://github.com/sassom2112/congenial-lamp)  
-  This project involves the exploratory data analysis (EDA) and preprocessing of the UNSW-NB15 dataset, which contains network traffic data for intrusion detection. The analysis includes cleaning, feature engineering, and visualizing distributions to prepare the dataset for modeling and further investigation of network security threats.
- 
-  <img src="./img/attack_behaviours.png" alt="Attack Behaviors" width="390"/>
-  <img src="./img/attack_behaviours1.png" alt="Attack Behaviors 1" width="350"/>
+---
 
+## Flagship: ADVERSA — Adversarial Forensic Investigation Framework
 
-- [Password Cracker](https://github.com/sassom2112/ideal-rotary-phone.git) - A project that demonstrates unix_crypt(3) and modern SHA512 salting approaches. Highlights the importance of strong hashing and salting practices.
-  
-- [TCP Scanner](https://github.com/sassom2112/shiny-octo-happiness.git) - A project that demonstrates how to scan TCP ports on a target host and retrieve service banners from open ports. It highlights the importance of network reconnaissance techniques for identifying open services and securing network infrastructure.
+**[sassom2112/find-evil-2026](https://github.com/sassom2112/find-evil-2026)** · Built for SANS FIND EVIL! Hackathon 2026
 
-- [Windows Memory Management](https://github.com/sassom2112/Windows-Memory-Management) - A project that demonstrates the significance in properly freeing memory to prevent leaks.
+A dual-agent AI that autonomously investigates Windows disk images for compromise — then audits its own findings.
 
-## 🔬 Machine Learning Projects
-### **MIT xPro** - Deep Learning: Mastering Neural Networks
-<img src="./img/Deep Learning_ Mastering Neural Networks.png" alt="6.S191" width="180"/>
+**Why two agents?** LLMs hallucinate. In forensics, a hallucinated finding is a false accusation. ADVERSA borrows from adversarial ML: the agent that *finds* evidence and the agent that *verifies* it are structurally independent. On live case data, the Forensic Auditor caught 2 false positives the triage pass scored as HIGH confidence.
 
-- [Adapting and Training VGG-11 for Traffic Sign Recognition](https://github.com/sassom2112/scaling-guide) - This project adapts and trains a pretrained VGG-11 neural network for traffic sign classification using the GTSRB dataset. Through a two-phase approach—feature extraction and fine-tuning—the model leverages transfer learning to achieve high accuracy in recognizing 43 traffic sign classes.
+| What | How |
+|------|-----|
+| Triage Agent | Two-pass SIFT + Claude agentic loop (75 tool calls per host) |
+| Forensic Auditor | Independent re-verification — re-runs tools from scratch, demands bytes on disk |
+| MCP tool server | 4-layer security boundary: blocklist → binary allowlist → pipe parser → redirect guard |
+| Adversarial training | Red Agent generates evasions, Blue Agent learns to catch them — 3,000 iterations, 0 human interventions |
+| Coverage | 11 operational rules · 9 MITRE ATT&CK techniques · Sigma rule export |
 
-- [Adversarial Image Generation: Flowers Dataset with GANs](https://github.com/sassom2112/urban-eureka) - 
-This project uses Generative Adversarial Networks (GANs) to create realistic images of flowers, leveraging the Oxford 102 Flowers Dataset. The adversarial training process enables the Generator to synthesize high-quality images while the Discriminator learns to distinguish real from fake, resulting in visually convincing outputs.
+**Results — SANS FIND EVIL! 2026 live case data:**
 
-- [LSTM-Based Text Generation for Sequence Learning](https://github.com/sassom2112/bug-free-fortnight) - 
-This project trains a Long Short-Term Memory (LSTM) model to predict and generate word sequences based on input text, using a bilingual English-to-Spanish dataset for sequence modeling. It includes data preprocessing, one-hot encoding, and regularization techniques to ensure accurate predictions and robust performance.
+| Host | Score | Auditor caught |
+|------|-------|----------------|
+| tdungan | 100/100 | — |
+| nfury | 95/100 | — |
+| controller | 50/100 | 2 false positives refuted |
 
-- [FashionMNIST Classifcation Project](https://github.com/sassom2112/bookish-dollop) - This project trains a Convolutional Neural Network (CNN) to classify images from the FashionMNIST dataset into 10 clothing and footwear categories, using PyTorch for model implementation, training, and evaluation. It includes data augmentation, performance visualization, and confusion matrix analysis to ensure robust classification and meaningful insights.
+**Training self-correction:** domain gap at iteration ~10 collapsed detection to 10%. Red vs Blue loop autonomously recovered to 75% F1 with zero human intervention. 1,245 evasion variants evolved, 83 signals learned.
 
-- [Regression Optimization](https://github.com/sassom2112/module_1_regression_optimization) - This linear regression project explores manually fitting vs automatic fitting using gradient descent optimization for linear regression.
+---
 
-- [Training a Single Neuron Classifier](https://github.com/sassom2112/fuzzy-palm-tree.git) - This logistic regression project addresses a binary classification problem, predicting wine color (red or white) based on chemical features like acidity and alcohol content. It compares two approaches: manual implementation vs. scikit-learn, demonstrating the convenience and efficiency of using pre-built machine learning tools.
-  
-- [MNIST Digit Recognition App](https://github.com/sassom2112/friendly-octo-tribble) - This project is a full-stack web application that uses a Convolutional Neural Network (CNN) to recognize handwritten digits from the MNIST dataset. The app allows users to draw a digit on a canvas, which is processed by a Flask API for real-time digit classification.
+## 🔐 Security Research
 
-## 🌐 Web Projects
+| Project | What it is |
+|---------|-----------|
+| [UNSW-NB15 Intrusion Detection](https://github.com/sassom2112/congenial-lamp) | Full ML lifecycle on 2.54M real network flows — EDA → sklearn Pipeline → XGBoost → SHAP. **F1: 0.9640 · ROC-AUC: 0.9997** |
+| [TCP Scanner + Banner Grabber](https://github.com/sassom2112/shiny-octo-happiness.git) | Maps open ports, pulls service banners, surfaces attack surface. |
+| [Password Cracker](https://github.com/sassom2112/ideal-rotary-phone.git) | unix_crypt(3) vs SHA512 salting. Why weak hashing fails, demonstrated. |
+| [Windows Memory Management](https://github.com/sassom2112/Windows-Memory-Management) | Memory leak exploitation via improper deallocation. |
 
-- [Contact Management](https://github.com/sassom2112/reimagined-carnival.git) - A contact management system that uses **Firebase Firestore** for real-time CRUD operations, allowing users to add, edit, delete, and search contacts. It features a responsive design, ensuring smooth functionality across both desktop and mobile devices.
+<img src="./img/attack_behaviours.png" alt="Attack Behaviors" width="360"/> <img src="./img/attack_behaviours1.png" alt="Attack Behaviors 1" width="320"/>
 
-- [Packing List App](https://github.com/sassom2112/fictional-spoon) - A **React-based** packing list app that allows users to add, remove, and toggle the packed status of items for a trip. It displays real-time statistics on the total number of items and how many have been packed, providing an easy way to manage travel preparations.
+---
 
-## Technologies Used
+## 🤖 ML / AI / Data Science
 
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white)
-![Three.js](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+**MIT xPro — Deep Learning: Mastering Neural Networks** <img src="./img/Deep Learning_ Mastering Neural Networks.png" alt="Cert" width="100"/>
+
+| Project | What it is |
+|---------|-----------|
+| [VGG-11 Traffic Sign Classification](https://github.com/sassom2112/scaling-guide) | Transfer learning on GTSRB (43 classes). Feature extraction → fine-tuning. |
+| [GAN: Oxford Flowers Synthesis](https://github.com/sassom2112/urban-eureka) | Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until indistinguishable. |
+| [LSTM Text Generation](https://github.com/sassom2112/bug-free-fortnight) | Word-level sequence modeling on bilingual EN→ES data. |
+| [FashionMNIST CNN Classifier](https://github.com/sassom2112/bookish-dollop) | 10-class PyTorch classifier with augmentation + confusion matrix analysis. |
+| [MNIST Digit Recognition App](https://github.com/sassom2112/friendly-octo-tribble) | Draw → Flask API → CNN. Containerized with Docker, deployed on AWS Lambda + CloudFront. |
+| [Wine Classification](https://github.com/sassom2112/fuzzy-palm-tree.git) | Binary logistic regression — manual implementation vs. sklearn compared. |
+| [Gradient Descent from Scratch](https://github.com/sassom2112/module_1_regression_optimization) | Manual fitting vs. autograd. What optimizers actually do, no black box. |
+
+---
+
+## 🌐 Web
+
+| Project | What it is |
+|---------|-----------|
+| [Contact Management](https://github.com/sassom2112/reimagined-carnival.git) | Firebase Firestore real-time CRUD. Responsive, mobile-first. |
+| [Packing List App](https://github.com/sassom2112/fictional-spoon) | React state management with live item stats. |
+
+---
+
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
+![Claude](https://img.shields.io/badge/Claude_API-D97757?style=for-the-badge&logo=anthropic&logoColor=white)
+![MCP](https://img.shields.io/badge/MCP_Server-000000?style=for-the-badge&logo=anthropic&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
-![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Snyk](https://img.shields.io/badge/Snyk-4C4A73?style=for-the-badge&logo=snyk&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
-![Visual Studio Code](https://img.shields.io/badge/VSCode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
-![Webpack](https://img.shields.io/badge/Webpack-8DD6F9?style=for-the-badge&logo=webpack&logoColor=black)
-![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)
-![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
-![NPM](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
