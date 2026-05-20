@@ -50,7 +50,7 @@ Draw a digit on the canvas → Flask API preprocesses and runs it through a PyTo
 | [GAN: Oxford Flowers Synthesis](https://github.com/sassom2112/oxford-flowers-gan) | Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until indistinguishable. |
 | [LSTM Text Generation](https://github.com/sassom2112/lstm-text-prediction) | Word-level sequence modeling on bilingual EN→ES data. |
 | [FashionMNIST CNN Classifier](https://github.com/sassom2112/bookish-dollop) | 10-class PyTorch classifier with augmentation + confusion matrix analysis. |
-| [Wine Classification](https://github.com/sassom2112/wine-color-classifier) | Binary logistic regression — manual implementation vs. sklearn compared. |
+| [Wine Color Classification + Adversarial Analysis](https://github.com/sassom2112/wine-color-classifier) | EDA → LR vs XGBoost → SHAP → FGSM adversarial attack on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.** Minimum perturbation to fool the classifier: +0.09 mg/L SO₂. |
 | [Gradient Descent from Scratch](https://github.com/sassom2112/regression-optimization) | Manual fitting vs. autograd. What optimizers actually do, no black box. |
 
 ---
