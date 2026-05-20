@@ -42,13 +42,22 @@ Draw a digit on the canvas → Flask API preprocesses and runs it through a PyTo
 
 ---
 
+### Live: LSTM Text Generation App
+
+**[sassom2112/lstm-text-prediction](https://github.com/sassom2112/lstm-text-prediction)** · [![Try It Out](https://img.shields.io/badge/Try_It_Out-lstm.di--sasso.com-blue?style=flat-square)](https://lstm.di-sasso.com)
+
+Type a prompt → Flask API runs it through a two-layer PyTorch LSTM → top-10 next-word probabilities returned as live confidence bars. Intentionally trained on 3,000 short sentences to show what a baseline LSTM learns — and why attention mechanisms and transformers exist. Includes full EDA, perplexity tracking, hidden state magnitude visualization, and temperature-controlled generation. Deployed on Render, frontend on GitHub Pages.
+
+<img src="./img/lstm.png" alt="LSTM Text Generation App — prompt input with next-word probability bars" width="700"/>
+
+---
+
 **MIT xPro — Deep Learning: Mastering Neural Networks** <img src="./img/Deep Learning_ Mastering Neural Networks.png" alt="Cert" width="100"/>
 
 | Project | What it is |
 |---------|-----------|
 | [VGG-11 Traffic Sign Classification](https://github.com/sassom2112/vgg11-traffic-sign-classifier) | Transfer learning on GTSRB (43 classes). Feature extraction → fine-tuning. |
 | [GAN: Oxford Flowers Synthesis](https://github.com/sassom2112/oxford-flowers-gan) | Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until indistinguishable. |
-| [LSTM Text Generation](https://github.com/sassom2112/lstm-text-prediction) | Word-level sequence modeling on bilingual EN→ES data. |
 | [FashionMNIST CNN — Adversarial Robustness](https://github.com/sassom2112/fashionmnist-cnn) | GradCAM explainability + FGSM adversarial attack on 10-class garment classifier. **Test Acc: 82.3%** · Shirt collapses 41% → 4% at ε=0.10. Pullover/Coat cluster is the dominant adversarial weakness. |
 | [Wine Color Classification + Adversarial Analysis](https://github.com/sassom2112/wine-color-classifier) | EDA → LR vs XGBoost → SHAP → FGSM adversarial attack on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.** Minimum perturbation to fool the classifier: +0.09 mg/L SO₂. |
 | [Gradient Descent from Scratch](https://github.com/sassom2112/regression-optimization) | Manual fitting vs. autograd. What optimizers actually do, no black box. |
