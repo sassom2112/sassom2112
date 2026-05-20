@@ -21,7 +21,7 @@
   <img src="./img/adversa-guardrails.png" alt="ADVERSA Guardrails" height="180"/>
 </p>
 
-> **Training self-correction:** domain gap at iteration ~10 collapsed detection to 10%. Red vs. Blue loop autonomously recovered to **75% F1** with zero human intervention. **1,245 evasion variants** evolved, **83 signals** learned.
+> LLMs hallucinate. In forensics, a hallucination is a false accusation. So two agents — one to investigate, one to independently challenge every finding from scratch with no shared context. On the live SANS case, the Triage Agent flagged three techniques. The Auditor refuted two. Final report: **one confirmed finding, zero false accusations.**
 
 ---
 
@@ -34,6 +34,8 @@
 - Detects brute force, lateral movement, and credential access across Splunk data
 - Maps every finding to MITRE ATT&CK and generates analyst-ready IR reports automatically
 
+> One alert fires. The agent pulls the logs, hunts the kill chain — brute force, lateral movement, credential access — maps every hop to MITRE ATT&CK, and drops a full IR report before a human analyst opens their laptop. The investigation runs itself.
+
 ---
 
 ### [Elastic IR Agent](https://github.com/sassom2112/elastic-ir-agent)
@@ -45,13 +47,18 @@
 - ES|QL analytics pipeline for structured threat correlation at query time
 - Write-back memory builds persistent investigation context across sessions
 
+> Most IR tools forget everything the moment you close the tab. This one writes back. Each session layers new findings on top of the last — hybrid semantic search surfaces what SQL misses, ES|QL handles the heavy correlation, and the memory grows with every investigation. It gets better the more it works.
+
 ---
 
 ## 🔐 Security Research
 
-| Project | What it is |
-|---------|-----------|
-| [UNSW-NB15 Intrusion Detection](https://github.com/sassom2112/network-intrusion-detection) | Full ML lifecycle on 2.54M real network flows — EDA → sklearn Pipeline → XGBoost → SHAP. **F1: 0.9640 · ROC-AUC: 0.9997** |
+### [UNSW-NB15 Intrusion Detection](https://github.com/sassom2112/network-intrusion-detection)
+
+**sklearn | XGBoost | SHAP**
+
+- Full ML lifecycle on 2.54M real network flows — EDA → sklearn Pipeline → XGBoost → SHAP
+- **F1: 0.9640 · ROC-AUC: 0.9997**
 
 <img src="./img/fig_confusion_matrices.png" alt="Confusion Matrices — LR / RF / XGBoost" width="720"/>
 
