@@ -7,7 +7,7 @@
 
 ## Flagship: ADVERSA — Adversarial Forensic Investigation Framework
 
-**[sassom2112/find-evil-2026](https://github.com/sassom2112/find-evil-2026)** · Built for SANS FIND EVIL! Hackathon 2026
+**[sassom2112/adversa](https://github.com/sassom2112/adversa)** · Built for SANS FIND EVIL! Hackathon 2026
 
 A dual-agent AI that autonomously investigates Windows disk images for compromise — then audits its own findings.
 
@@ -22,7 +22,7 @@ A dual-agent AI that autonomously investigates Windows disk images for compromis
 
 | Project | What it is |
 |---------|-----------|
-| [UNSW-NB15 Intrusion Detection](https://github.com/sassom2112/congenial-lamp) | Full ML lifecycle on 2.54M real network flows — EDA → sklearn Pipeline → XGBoost → SHAP. **F1: 0.9640 · ROC-AUC: 0.9997** |
+| [UNSW-NB15 Intrusion Detection](https://github.com/sassom2112/network-intrusion-detection) | Full ML lifecycle on 2.54M real network flows — EDA → sklearn Pipeline → XGBoost → SHAP. **F1: 0.9640 · ROC-AUC: 0.9997** |
 
 <img src="./img/fig_confusion_matrices.png" alt="Confusion Matrices — LR / RF / XGBoost" width="720"/>
 
@@ -34,7 +34,7 @@ A dual-agent AI that autonomously investigates Windows disk images for compromis
 
 ### Live: MNIST Digit Recognition App
 
-**[sassom2112/friendly-octo-tribble](https://github.com/sassom2112/friendly-octo-tribble)** · [![Try It Out](https://img.shields.io/badge/Try_It_Out-digits.di--sasso.com-blue?style=flat-square)](https://digits.di-sasso.com)
+**[sassom2112/mnist-digit-recognition](https://github.com/sassom2112/mnist-digit-recognition)** · [![Try It Out](https://img.shields.io/badge/Try_It_Out-digits.di--sasso.com-blue?style=flat-square)](https://digits.di-sasso.com)
 
 Draw a digit on the canvas → Flask API preprocesses and runs it through a PyTorch CNN → per-digit confidence scores returned instantly. The app also visualizes activated filters from Conv Layer 1 (32 filters) and Conv Layer 2 (64 filters) in real time — you see exactly what the network sees as it classifies your stroke. Deployed on AWS (Lambda + API Gateway + CloudFront), containerized with Docker.
 
@@ -51,7 +51,7 @@ Draw a digit on the canvas → Flask API preprocesses and runs it through a PyTo
 | [LSTM Text Generation](https://github.com/sassom2112/bug-free-fortnight) | Word-level sequence modeling on bilingual EN→ES data. |
 | [FashionMNIST CNN Classifier](https://github.com/sassom2112/bookish-dollop) | 10-class PyTorch classifier with augmentation + confusion matrix analysis. |
 | [Wine Classification](https://github.com/sassom2112/fuzzy-palm-tree.git) | Binary logistic regression — manual implementation vs. sklearn compared. |
-| [Gradient Descent from Scratch](https://github.com/sassom2112/module_1_regression_optimization) | Manual fitting vs. autograd. What optimizers actually do, no black box. |
+| [Gradient Descent from Scratch](https://github.com/sassom2112/regression-optimization) | Manual fitting vs. autograd. What optimizers actually do, no black box. |
 
 ---
 
