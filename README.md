@@ -18,6 +18,18 @@ A dual-agent AI that autonomously investigates Windows disk images for compromis
 
 ---
 
+**[sassom2112/splunk-agentic-ir](https://github.com/sassom2112/splunk-agentic-ir)** · Built for Splunk Agentic Ops Hackathon 2026
+
+An autonomous AI agent that investigates security incidents end-to-end using Splunk — detects brute force, lateral movement, and credential access, maps each to MITRE ATT&CK, and generates analyst-ready IR reports triggered by a single alert.
+
+---
+
+**[sassom2112/elastic-ir-agent](https://github.com/sassom2112/elastic-ir-agent)** · Built for Elastic Agent Builder × Google Cloud Agent Builder Hackathon 2026
+
+An autonomous IR agent built on Elasticsearch and Gemini — hybrid semantic search, ES|QL analytics, and write-back memory that builds investigation context across sessions.
+
+---
+
 ## 🔐 Security Research
 
 | Project | What it is |
