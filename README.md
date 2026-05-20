@@ -34,8 +34,7 @@
 - Detects brute force, lateral movement, and credential access across Splunk data
 - Maps every finding to MITRE ATT&CK and generates analyst-ready IR reports automatically
 
-> One alert fires. The agent pulls the logs, hunts the kill chain — brute force, lateral movement, credential access — maps every hop to MITRE ATT&CK, and drops a full IR report before a human analyst opens their laptop. The investigation runs itself.
-
+> One alert. The agent runs six detections, maps every hit to MITRE ATT&CK, and writes the report — before an analyst opens their laptop. Claude decides what to hunt. Python scores what counts. The model cannot promote a hunch into a confirmed finding.
 ---
 
 ### [Elastic IR Agent](https://github.com/sassom2112/elastic-ir-agent)
@@ -47,7 +46,7 @@
 - ES|QL analytics pipeline for structured threat correlation at query time
 - Write-back memory builds persistent investigation context across sessions
 
-> Most IR tools forget everything the moment you close the tab. This one writes back. Each session layers new findings on top of the last — hybrid semantic search surfaces what SQL misses, ES|QL handles the heavy correlation, and the memory grows with every investigation. It gets better the more it works.
+> Persistent memory in IR tooling is a liability by default — IOCs from last month's breach silently bleeding into today's investigation, implicating the wrong actor. The session boundary here is structural: the dispatch layer enforces isolation regardless of what the model requests. A finding from Case A is physically unreachable during Case B. The memory grows. It never leaks.
 
 ---
 
