@@ -14,6 +14,8 @@ A dual-agent AI that autonomously investigates Windows disk images for compromis
 
 **Training self-correction:** domain gap at iteration ~10 collapsed detection to 10%. Red vs Blue loop autonomously recovered to 75% F1 with zero human intervention. 1,245 evasion variants evolved, 83 signals learned.
 
+<img src="./img/adversa-architecture.png" alt="ADVERSA Layered Forensic Architecture" width="420"/> <img src="./img/adversa-guardrails.png" alt="ADVERSA Guardrails — Anti-Hallucination Trust Chain & MCP Security Boundary" width="300"/>
+
 ---
 
 ## 🔐 Security Research
@@ -22,11 +24,23 @@ A dual-agent AI that autonomously investigates Windows disk images for compromis
 |---------|-----------|
 | [UNSW-NB15 Intrusion Detection](https://github.com/sassom2112/congenial-lamp) | Full ML lifecycle on 2.54M real network flows — EDA → sklearn Pipeline → XGBoost → SHAP. **F1: 0.9640 · ROC-AUC: 0.9997** |
 
-<img src="./img/fig_roc_curves.png" alt="ROC Curves — XGBoost ROC-AUC 0.9997" width="370"/> <img src="./img/fig_shap_beeswarm.png" alt="SHAP Beeswarm — Feature Explainability" width="350"/>
+<img src="./img/fig_confusion_matrices.png" alt="Confusion Matrices — LR / RF / XGBoost" width="720"/>
+
+<img src="./img/fig_shap_beeswarm.png" alt="SHAP Beeswarm — Top Features by Impact" width="500"/>
 
 ---
 
 ## 🤖 ML / AI / Data Science
+
+### Live: MNIST Digit Recognition App
+
+**[sassom2112/friendly-octo-tribble](https://github.com/sassom2112/friendly-octo-tribble)** · [![Try It Out](https://img.shields.io/badge/Try_It_Out-digits.di--sasso.com-blue?style=flat-square)](https://digits.di-sasso.com)
+
+Draw a digit on the canvas → Flask API preprocesses and runs it through a PyTorch CNN → per-digit confidence scores returned instantly. The app also visualizes activated filters from Conv Layer 1 (32 filters) and Conv Layer 2 (64 filters) in real time — you see exactly what the network sees as it classifies your stroke. Deployed on AWS (Lambda + API Gateway + CloudFront), containerized with Docker.
+
+<img src="./img/draw.png" alt="MNIST draw canvas with confidence scores" width="340"/> <img src="./img/hiddenlayer.png" alt="Conv layer filter visualization" width="330"/>
+
+---
 
 **MIT xPro — Deep Learning: Mastering Neural Networks** <img src="./img/Deep Learning_ Mastering Neural Networks.png" alt="Cert" width="100"/>
 
@@ -36,7 +50,6 @@ A dual-agent AI that autonomously investigates Windows disk images for compromis
 | [GAN: Oxford Flowers Synthesis](https://github.com/sassom2112/urban-eureka) | Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until indistinguishable. |
 | [LSTM Text Generation](https://github.com/sassom2112/bug-free-fortnight) | Word-level sequence modeling on bilingual EN→ES data. |
 | [FashionMNIST CNN Classifier](https://github.com/sassom2112/bookish-dollop) | 10-class PyTorch classifier with augmentation + confusion matrix analysis. |
-| [MNIST Digit Recognition App](https://github.com/sassom2112/friendly-octo-tribble) | Draw → Flask API → CNN. Containerized with Docker, deployed on AWS Lambda + CloudFront. |
 | [Wine Classification](https://github.com/sassom2112/fuzzy-palm-tree.git) | Binary logistic regression — manual implementation vs. sklearn compared. |
 | [Gradient Descent from Scratch](https://github.com/sassom2112/module_1_regression_optimization) | Manual fitting vs. autograd. What optimizers actually do, no black box. |
 
