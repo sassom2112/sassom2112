@@ -7,7 +7,7 @@
 
 ## 🛠️ Autonomous DFIR & Agentic SecOps Ecosystem
 
-### [sassom2112/adversa](https://github.com/sassom2112/adversa)
+### [Sift Forensics Agent](https://github.com/sassom2112/adversa)
 *SANS FIND EVIL! Hackathon 2026*
 
 **MCP | Windows Forensics | Red/Blue Loop**
@@ -25,7 +25,7 @@
 
 ---
 
-### [sassom2112/splunk-agentic-ir](https://github.com/sassom2112/splunk-agentic-ir)
+### [Splunk IR Agent](https://github.com/sassom2112/splunk-agentic-ir)
 *Splunk Agentic Ops Hackathon 2026*
 
 **Splunk | MITRE ATT&CK | Python**
@@ -36,7 +36,7 @@
 
 ---
 
-### [sassom2112/elastic-ir-agent](https://github.com/sassom2112/elastic-ir-agent)
+### [Elastic IR Agent](https://github.com/sassom2112/elastic-ir-agent)
 *Elastic Agent Builder × Google Cloud Agent Builder Hackathon 2026*
 
 **Elasticsearch | Gemini | ES|QL**
@@ -63,7 +63,7 @@
 
 ### Live: MNIST Digit Recognition App
 
-**[sassom2112/mnist-digit-recognition](https://github.com/sassom2112/mnist-digit-recognition)** · [![Try It Out](https://img.shields.io/badge/Try_It_Out-digits.di--sasso.com-blue?style=flat-square)](https://digits.di-sasso.com)
+**[MNIST Hand Written Digit Recognition](https://github.com/sassom2112/mnist-digit-recognition)** · [![Try It Out](https://img.shields.io/badge/Try_It_Out-digits.di--sasso.com-blue?style=flat-square)](https://digits.di-sasso.com)
 
 Draw a digit on the canvas → Flask API preprocesses and runs it through a PyTorch CNN → per-digit confidence scores returned instantly. The app also visualizes activated filters from Conv Layer 1 (32 filters) and Conv Layer 2 (64 filters) in real time — you see exactly what the network sees as it classifies your stroke. Deployed on AWS (Lambda + API Gateway + CloudFront), containerized with Docker.
 
@@ -73,7 +73,7 @@ Draw a digit on the canvas → Flask API preprocesses and runs it through a PyTo
 
 ### Live: LSTM Text Generation App
 
-**[sassom2112/lstm-text-prediction](https://github.com/sassom2112/lstm-text-prediction)** · [![Try It Out](https://img.shields.io/badge/Try_It_Out-lstm.di--sasso.com-blue?style=flat-square)](https://lstm.di-sasso.com)
+**[LSTM Text Prediction](https://github.com/sassom2112/lstm-text-prediction)** · [![Try It Out](https://img.shields.io/badge/Try_It_Out-lstm.di--sasso.com-blue?style=flat-square)](https://lstm.di-sasso.com)
 
 Type a prompt → Flask API runs it through a two-layer PyTorch LSTM → top-10 next-word probabilities returned as live confidence bars. Intentionally trained on 3,000 short sentences to show what a baseline LSTM learns — and why attention mechanisms and transformers exist. Includes full EDA, perplexity tracking, hidden state magnitude visualization, and temperature-controlled generation. Deployed on Render, frontend on GitHub Pages.
 
@@ -83,7 +83,7 @@ Type a prompt → Flask API runs it through a two-layer PyTorch LSTM → top-10 
 
 **MIT xPro — Deep Learning: Mastering Neural Networks** <img src="./img/Deep Learning_ Mastering Neural Networks.png" alt="Cert" width="100"/>
 
-### [FashionMNIST CNN — Adversarial Robustness](https://github.com/sassom2112/fashionmnist-cnn)
+### [Fashion-MNIST CNN — Adversarial Robustness](https://github.com/sassom2112/fashionmnist-cnn)
 
 GradCAM explainability + FGSM adversarial attack on a 10-class garment classifier. **Test Acc: 82.3%** · Shirt collapses 41% → 4% at ε=0.10. Pullover/Coat cluster is the dominant adversarial weakness.
 
@@ -97,15 +97,6 @@ GradCAM explainability + FGSM adversarial attack on a 10-class garment classifie
 | [GAN: Oxford Flowers Synthesis](https://github.com/sassom2112/oxford-flowers-gan) | Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until indistinguishable. |
 | [Wine Color Classification + Adversarial Analysis](https://github.com/sassom2112/wine-color-classifier) | EDA → LR vs XGBoost → SHAP → FGSM adversarial attack on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.** Minimum perturbation to fool the classifier: +0.09 mg/L SO₂. |
 | [Gradient Descent from Scratch](https://github.com/sassom2112/regression-optimization) | Manual fitting vs. autograd. What optimizers actually do, no black box. |
-
----
-
-## 🌐 Web
-
-| Project | What it is |
-|---------|-----------|
-| [Contact Management](https://github.com/sassom2112/reimagined-carnival.git) | Firebase Firestore real-time CRUD. Responsive, mobile-first. |
-| [Packing List App](https://github.com/sassom2112/fictional-spoon) | React state management with live item stats. |
 
 ---
 
