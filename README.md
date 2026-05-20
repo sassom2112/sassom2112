@@ -47,7 +47,7 @@ Draw a digit on the canvas → Flask API preprocesses and runs it through a PyTo
 | Project | What it is |
 |---------|-----------|
 | [VGG-11 Traffic Sign Classification](https://github.com/sassom2112/scaling-guide) | Transfer learning on GTSRB (43 classes). Feature extraction → fine-tuning. |
-| [GAN: Oxford Flowers Synthesis](https://github.com/sassom2112/urban-eureka) | Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until indistinguishable. |
+| [GAN: Oxford Flowers Synthesis](https://github.com/sassom2112/oxford-flowers-gan) | Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until indistinguishable. |
 | [LSTM Text Generation](https://github.com/sassom2112/lstm-text-prediction) | Word-level sequence modeling on bilingual EN→ES data. |
 | [FashionMNIST CNN Classifier](https://github.com/sassom2112/bookish-dollop) | 10-class PyTorch classifier with augmentation + confusion matrix analysis. |
 | [Wine Classification](https://github.com/sassom2112/wine-color-classifier) | Binary logistic regression — manual implementation vs. sklearn compared. |
