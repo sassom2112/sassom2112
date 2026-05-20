@@ -5,28 +5,45 @@
 
 ---
 
-## Flagship: ADVERSA — Adversarial Forensic Investigation Framework
+## 🛠️ Autonomous DFIR & Agentic SecOps Ecosystem
 
-**[sassom2112/adversa](https://github.com/sassom2112/adversa)** · Built for SANS FIND EVIL! Hackathon 2026
+### [sassom2112/adversa](https://github.com/sassom2112/adversa)
+*SANS FIND EVIL! Hackathon 2026*
 
-A dual-agent AI that autonomously investigates Windows disk images for compromise — then audits its own findings.
+**MCP | Windows Forensics | Red/Blue Loop**
 
+- Dual-agent AI that autonomously investigates Windows disk images for compromise — then audits its own findings
+- Red vs. Blue adversarial loop with live self-correction: no human intervention required
+- 1,245 evasion variants evolved across training; 83 detection signals learned from scratch
 
-**Training self-correction:** domain gap at iteration ~10 collapsed detection to 10%. Red vs Blue loop autonomously recovered to 75% F1 with zero human intervention. 1,245 evasion variants evolved, 83 signals learned.
+<p align="center">
+  <img src="./img/adversa-architecture.png" alt="ADVERSA Layered Forensic Architecture" height="180"/>
+  <img src="./img/adversa-guardrails.png" alt="ADVERSA Guardrails" height="180"/>
+</p>
 
-<img src="./img/adversa-architecture.png" alt="ADVERSA Layered Forensic Architecture" width="420"/> <img src="./img/adversa-guardrails.png" alt="ADVERSA Guardrails — Anti-Hallucination Trust Chain & MCP Security Boundary" width="300"/>
+> **Training self-correction:** domain gap at iteration ~10 collapsed detection to 10%. Red vs. Blue loop autonomously recovered to **75% F1** with zero human intervention. **1,245 evasion variants** evolved, **83 signals** learned.
 
 ---
 
-**[sassom2112/splunk-agentic-ir](https://github.com/sassom2112/splunk-agentic-ir)** · Built for Splunk Agentic Ops Hackathon 2026
+### [sassom2112/splunk-agentic-ir](https://github.com/sassom2112/splunk-agentic-ir)
+*Splunk Agentic Ops Hackathon 2026*
 
-An autonomous AI agent that investigates security incidents end-to-end using Splunk — detects brute force, lateral movement, and credential access, maps each to MITRE ATT&CK, and generates analyst-ready IR reports triggered by a single alert.
+**Splunk | MITRE ATT&CK | Python**
+
+- End-to-end autonomous incident investigation triggered by a single alert
+- Detects brute force, lateral movement, and credential access across Splunk data
+- Maps every finding to MITRE ATT&CK and generates analyst-ready IR reports automatically
 
 ---
 
-**[sassom2112/elastic-ir-agent](https://github.com/sassom2112/elastic-ir-agent)** · Built for Elastic Agent Builder × Google Cloud Agent Builder Hackathon 2026
+### [sassom2112/elastic-ir-agent](https://github.com/sassom2112/elastic-ir-agent)
+*Elastic Agent Builder × Google Cloud Agent Builder Hackathon 2026*
 
-An autonomous IR agent built on Elasticsearch and Gemini — hybrid semantic search, ES|QL analytics, and write-back memory that builds investigation context across sessions.
+**Elasticsearch | Gemini | ES|QL**
+
+- Autonomous IR agent with hybrid semantic search over security event data
+- ES|QL analytics pipeline for structured threat correlation at query time
+- Write-back memory builds persistent investigation context across sessions
 
 ---
 
