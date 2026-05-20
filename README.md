@@ -97,9 +97,18 @@ GradCAM explainability + FGSM adversarial attack on a 10-class garment classifie
 
 <img src="./img/fashionmnist_fgsm_per_class.png" alt="Per-class accuracy drop under FGSM adversarial attack (ε=0.10)" width="600"/>
 
+### [VGG-11 Traffic Sign Classification — Adversarial Robustness](https://github.com/sassom2112/vgg11-traffic-sign-classifier)
+
+**PyTorch | Transfer Learning | GradCAM | FGSM**
+
+Two-phase fine-tuning of pretrained VGG-11 on GTSRB (43 classes, 39K images). Phase 1 freezes the ImageNet backbone — test accuracy: 63.9%. Phase 2 unfreezes all layers — test accuracy: **93.2%**. The 29-point gap reveals how much the traffic sign domain diverges from ImageNet.
+
+GradCAM on the fine-tuned model exposes a shortcut learning failure: the 30 km/h classifier fires on background traffic lights, not the sign itself — the model learned urban intersection context as a proxy for speed limits. That's the attack surface.
+
+<img src="./img/vgg11_gradcam.png" alt="GradCAM — VGG-11 attention heatmaps on GTSRB test samples" width="720"/>
+
 | Project | What it is |
 |---------|-----------|
-| [VGG-11 Traffic Sign Classification](https://github.com/sassom2112/vgg11-traffic-sign-classifier) | Transfer learning on GTSRB (43 classes). Feature extraction → fine-tuning. |
 | [GAN: Oxford Flowers Synthesis](https://github.com/sassom2112/oxford-flowers-gan) | Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until indistinguishable. |
 | [Wine Color Classification + Adversarial Analysis](https://github.com/sassom2112/wine-color-classifier) | EDA → LR vs XGBoost → SHAP → FGSM adversarial attack on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.** Minimum perturbation to fool the classifier: +0.09 mg/L SO₂. |
 | [Gradient Descent from Scratch](https://github.com/sassom2112/regression-optimization) | Manual fitting vs. autograd. What optimizers actually do, no black box. |
