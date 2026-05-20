@@ -49,9 +49,13 @@ Draw a digit on the canvas → Flask API preprocesses and runs it through a PyTo
 | [VGG-11 Traffic Sign Classification](https://github.com/sassom2112/vgg11-traffic-sign-classifier) | Transfer learning on GTSRB (43 classes). Feature extraction → fine-tuning. |
 | [GAN: Oxford Flowers Synthesis](https://github.com/sassom2112/oxford-flowers-gan) | Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until indistinguishable. |
 | [LSTM Text Generation](https://github.com/sassom2112/lstm-text-prediction) | Word-level sequence modeling on bilingual EN→ES data. |
-| [FashionMNIST CNN Classifier](https://github.com/sassom2112/bookish-dollop) | 10-class PyTorch classifier with augmentation + confusion matrix analysis. |
+| [FashionMNIST CNN — Adversarial Robustness](https://github.com/sassom2112/fashionmnist-cnn) | GradCAM explainability + FGSM adversarial attack on 10-class garment classifier. **Test Acc: 82.3%** · Shirt collapses 41% → 4% at ε=0.10. Pullover/Coat cluster is the dominant adversarial weakness. |
 | [Wine Color Classification + Adversarial Analysis](https://github.com/sassom2112/wine-color-classifier) | EDA → LR vs XGBoost → SHAP → FGSM adversarial attack on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.** Minimum perturbation to fool the classifier: +0.09 mg/L SO₂. |
 | [Gradient Descent from Scratch](https://github.com/sassom2112/regression-optimization) | Manual fitting vs. autograd. What optimizers actually do, no black box. |
+
+<img src="./img/fashionmnist_gradcam.png" alt="GradCAM — gradient-weighted activations for all 10 garment classes" width="720"/>
+
+<img src="./img/fashionmnist_fgsm_per_class.png" alt="Per-class accuracy drop under FGSM adversarial attack (ε=0.10)" width="600"/>
 
 ---
 
