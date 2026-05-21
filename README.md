@@ -21,7 +21,7 @@
   <img src="./img/adversa-guardrails.png" alt="ADVERSA Guardrails" height="180"/>
 </p>
 
-> LLMs hallucinate. In forensics, a hallucination is a false accusation. So two agents — one to investigate, one to independently challenge every finding from scratch with no shared context. On the live SANS case, the Triage Agent flagged three techniques. The Auditor refuted two. Final report: **one confirmed finding, zero false accusations.**
+> LLMs hallucinate. In forensics, a hallucination is a false accusation. I built a tool that is defensible.
 
 ---
 
@@ -34,7 +34,6 @@
 - Detects brute force, lateral movement, and credential access across Splunk data
 - Maps every finding to MITRE ATT&CK and generates analyst-ready IR reports automatically
 
-> One alert. The agent runs six detections, maps every hit to MITRE ATT&CK, and writes the report — before an analyst opens their laptop. Claude decides what to hunt. Python scores what counts. The model cannot promote a hunch into a confirmed finding.
 ---
 
 ### [Elastic IR Agent](https://github.com/sassom2112/elastic-ir-agent)
@@ -45,8 +44,6 @@
 - Autonomous IR agent with hybrid semantic search over security event data
 - ES|QL analytics pipeline for structured threat correlation at query time
 - Write-back memory builds persistent investigation context across sessions
-
-> Persistent memory in IR tooling is a liability by default — IOCs from last month's breach silently bleeding into today's investigation, implicating the wrong actor. The session boundary here is structural: the dispatch layer enforces isolation regardless of what the model requests. A finding from Case A is physically unreachable during Case B. The memory grows. It never leaks.
 
 ---
 
