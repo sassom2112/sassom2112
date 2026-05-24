@@ -112,8 +112,17 @@ Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until in
 
 | Project | What it is |
 |---------|-----------|
-| [Wine Color Classification + Adversarial Analysis](https://github.com/sassom2112/wine-color-classifier) | EDA → LR vs XGBoost → SHAP → FGSM adversarial attack on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.** Minimum perturbation to fool the classifier: +0.09 mg/L SO₂. |
 | [Gradient Descent from Scratch](https://github.com/sassom2112/regression-optimization) | Manual fitting vs. autograd. What optimizers actually do, no black box. |
+
+### [Wine Color Classification + Adversarial Analysis](https://github.com/sassom2112/wine-color-classifier)
+
+EDA → LR vs XGBoost → SHAP → FGSM adversarial attack on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.**
+
+Minimum perturbation to fool the classifier: **+0.09 mg/L SO₂** — below winery measurement noise.
+
+<img src="./img/wine_correlation.png" alt="Feature Correlation Matrix" width="380"/> <img src="./img/wine_shap_bar.png" alt="XGBoost SHAP Feature Importance" width="340"/>
+
+<img src="./img/wine_epsilon.png" alt="Decision Boundary Distance + Robustness vs Confidence" width="620"/>
 
 ---
 
