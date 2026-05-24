@@ -104,9 +104,14 @@ GradCAM on the fine-tuned model exposes a shortcut learning failure: the 30 km/h
 
 <img src="./img/vgg11_gradcam.png" alt="GradCAM — VGG-11 attention heatmaps on GTSRB test samples" width="720"/>
 
+### [GAN: Oxford Flowers Synthesis](https://github.com/sassom2112/oxford-flowers-gan)
+
+Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until indistinguishable.
+
+<img src="./img/flowers progression.png" alt="Generator Progression — Noise to Flowers across 250 epochs" width="720"/>
+
 | Project | What it is |
 |---------|-----------|
-| [GAN: Oxford Flowers Synthesis](https://github.com/sassom2112/oxford-flowers-gan) | Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until indistinguishable. |
 | [Wine Color Classification + Adversarial Analysis](https://github.com/sassom2112/wine-color-classifier) | EDA → LR vs XGBoost → SHAP → FGSM adversarial attack on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.** Minimum perturbation to fool the classifier: +0.09 mg/L SO₂. |
 | [Gradient Descent from Scratch](https://github.com/sassom2112/regression-optimization) | Manual fitting vs. autograd. What optimizers actually do, no black box. |
 
