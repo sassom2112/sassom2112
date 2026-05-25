@@ -1,143 +1,170 @@
-# Security Researcher · Agentic AI Engineer · Data Scientist
-
-> Offensive security meets adversarial ML — building systems that think, investigate, and defend.
-> I build MCP tool servers, dual-agent forensic pipelines, and production ML systems with real results.
-
----
-
-## 🛠️ Autonomous DFIR & Agentic SecOps Ecosystem
-
-### [Sift Forensics Agent](https://github.com/sassom2112/adversa)
-*SANS FIND EVIL! Hackathon 2026*
-
-**MCP | Windows Forensics | Red/Blue Loop**
-
-- Dual-agent AI that autonomously investigates Windows disk images for compromise — then audits its own findings
-- Red vs. Blue adversarial loop with live self-correction: no human intervention required
-- 1,245 evasion variants evolved across training; 83 detection signals learned from scratch
-
-<p align="center">
-  <img src="./img/adversa-architecture.png" alt="ADVERSA Layered Forensic Architecture" height="180"/>
-  <img src="./img/adversa-guardrails.png" alt="ADVERSA Guardrails" height="180"/>
-</p>
-
-> LLMs hallucinate. In forensics, a hallucination is a false accusation. I built a tool that is defensible.
+> **The question I keep returning to:** can a security system hold when the attacker understands it?
+>
+> A classifier that reaches 99% accuracy under clean conditions will collapse under adversarial pressure — unless it was built with that pressure in mind. I've spent the last two years finding out exactly where that collapse happens and what architectural choices prevent it. At the model level. At the system level. In real security data.
 
 ---
 
-### [Splunk IR Agent](https://github.com/sassom2112/splunk-agentic-ir)
-*Splunk Agentic Ops Hackathon 2026*
+## The Progression
 
-**Splunk | MITRE ATT&CK | Python**
+### Stage 1 — Learning Where Models Break
 
-- End-to-end autonomous incident investigation triggered by a single alert
-- Detects brute force, lateral movement, and credential access across Splunk data
-- Maps every finding to MITRE ATT&CK and generates analyst-ready IR reports automatically
+Before applying adversarial ML to security, I needed to understand the mechanics of model failure. These three projects established the pattern:
 
----
+**[Fashion-MNIST CNN — Adversarial Robustness](https://github.com/sassom2112/fashionmnist-cnn)**
 
-### [Elastic IR Agent](https://github.com/sassom2112/elastic-ir-agent)
-*Elastic Agent Builder × Google Cloud Agent Builder Hackathon 2026*
+GradCAM + FGSM on a 10-class garment classifier. **Test Acc: 82.3%** on clean data. At ε=0.10, the Shirt class collapses from 82% → 4% accuracy. GradCAM shows why: the model focuses on texture, not shape — making it trivially exploitable by imperceptible pixel noise.
 
-**Elasticsearch | Gemini | ES|QL**
-
-- Autonomous IR agent with hybrid semantic search over security event data
-- ES|QL analytics pipeline for structured threat correlation at query time
-- Write-back memory builds persistent investigation context across sessions
+<img src="./img/fashionmnist_gradcam.png" alt="GradCAM activations — all 10 garment classes" width="720"/>
+<img src="./img/fashionmnist_fgsm_per_class.png" alt="Per-class accuracy drop under FGSM (ε=0.10)" width="600"/>
 
 ---
 
-## 🔐 Security Research
+**[VGG-11 Traffic Sign Classification — Adversarial Robustness](https://github.com/sassom2112/vgg11-traffic-sign-classifier)**
 
-### [UNSW-NB15 Intrusion Detection](https://github.com/sassom2112/network-intrusion-detection)
+Two-phase fine-tuning of VGG-11 on GTSRB (43 classes, 39K images). Phase 1 freezes ImageNet backbone: 63.9%. Phase 2 unfreezes all layers: **93.2%** — a 29-point gap that reveals how much the traffic sign domain diverges from ImageNet priors.
 
-**sklearn | XGBoost | SHAP**
+GradCAM on the fine-tuned model exposes shortcut learning: the 30 km/h classifier fires on background traffic lights and urban intersection context — not the sign itself. The model learned a proxy. That proxy is the attack surface.
 
-- Full ML lifecycle on 2.54M real network flows — EDA → sklearn Pipeline → XGBoost → SHAP
-- **F1: 0.9640 · ROC-AUC: 0.9997**
-
-<img src="./img/fig_confusion_matrices.png" alt="Confusion Matrices — LR / RF / XGBoost" width="720"/>
-
-<img src="./img/fig_shap_beeswarm.png" alt="SHAP Beeswarm — Top Features by Impact" width="500"/>
+<img src="./img/vgg11_gradcam.png" alt="GradCAM — VGG-11 attention heatmaps on GTSRB" width="720"/>
 
 ---
 
-## 🤖 ML / AI / Data Science
+**[Wine Color Classification — Adversarial Analysis](https://github.com/sassom2112/wine-color-classifier)**
 
-### Live: MNIST Digit Recognition App
-
-**[MNIST Hand Written Digit Recognition](https://github.com/sassom2112/mnist-digit-recognition)** · [![Try It Out](https://img.shields.io/badge/Try_It_Out-digits.di--sasso.com-blue?style=flat-square)](https://digits.di-sasso.com)
-
-Draw a digit on the canvas → Flask API preprocesses and runs it through a PyTorch CNN → per-digit confidence scores returned instantly. The app also visualizes activated filters from Conv Layer 1 (32 filters) and Conv Layer 2 (64 filters) in real time — you see exactly what the network sees as it classifies your stroke. Deployed on AWS (Lambda + API Gateway + CloudFront), containerized with Docker.
-
-<img src="./img/draw.png" alt="MNIST draw canvas with confidence scores" width="340"/> <img src="./img/hiddenlayer.png" alt="Conv layer filter visualization" width="330"/>
-
----
-
-### Live: LSTM Text Generation App
-
-**[LSTM Text Prediction](https://github.com/sassom2112/lstm-text-prediction)** · [![Try It Out](https://img.shields.io/badge/Try_It_Out-lstm.di--sasso.com-blue?style=flat-square)](https://lstm.di-sasso.com)
-
-Type a prompt → Flask API runs it through a two-layer PyTorch LSTM → top-10 next-word probabilities returned as live confidence bars. Intentionally trained on 3,000 short sentences to show what a baseline LSTM learns — and why attention mechanisms and transformers exist. Includes full EDA, perplexity tracking, hidden state magnitude visualization, and temperature-controlled generation. Deployed on Render, frontend on GitHub Pages.
-
-<img src="./img/lstm.png" alt="LSTM Text Generation App — prompt input with next-word probability bars" width="700"/>
-
----
-
-**MIT xPro — Deep Learning: Mastering Neural Networks** <img src="./img/Deep Learning_ Mastering Neural Networks.png" alt="Cert" width="100"/>
-
-### [Fashion-MNIST CNN — Adversarial Robustness](https://github.com/sassom2112/fashionmnist-cnn)
-
-GradCAM explainability + FGSM adversarial attack on a 10-class garment classifier. **Test Acc: 82.3%** · Shirt collapses 41% → 4% at ε=0.10. Pullover/Coat cluster is the dominant adversarial weakness.
-
-<img src="./img/fashionmnist_gradcam.png" alt="GradCAM — gradient-weighted activations for all 10 garment classes" width="720"/>
-
-<img src="./img/fashionmnist_fgsm_per_class.png" alt="Per-class accuracy drop under FGSM adversarial attack (ε=0.10)" width="600"/>
-
-### [VGG-11 Traffic Sign Classification — Adversarial Robustness](https://github.com/sassom2112/vgg11-traffic-sign-classifier)
-
-**PyTorch | Transfer Learning | GradCAM | FGSM**
-
-Two-phase fine-tuning of pretrained VGG-11 on GTSRB (43 classes, 39K images). Phase 1 freezes the ImageNet backbone — test accuracy: 63.9%. Phase 2 unfreezes all layers — test accuracy: **93.2%**. The 29-point gap reveals how much the traffic sign domain diverges from ImageNet.
-
-GradCAM on the fine-tuned model exposes a shortcut learning failure: the 30 km/h classifier fires on background traffic lights, not the sign itself — the model learned urban intersection context as a proxy for speed limits. That's the attack surface.
-
-<img src="./img/vgg11_gradcam.png" alt="GradCAM — VGG-11 attention heatmaps on GTSRB test samples" width="720"/>
-
-### [GAN: Oxford Flowers Synthesis](https://github.com/sassom2112/oxford-flowers-gan)
-
-Adversarial training on Oxford 102 Flowers. Generator vs. Discriminator until indistinguishable.
-
-<img src="./img/flowers progression.png" alt="Generator Progression — Noise to Flowers across 250 epochs" width="720"/>
-
-| Project | What it is |
-|---------|-----------|
-| [Gradient Descent from Scratch](https://github.com/sassom2112/regression-optimization) | Manual fitting vs. autograd. What optimizers actually do, no black box. |
-
-### [Wine Color Classification + Adversarial Analysis](https://github.com/sassom2112/wine-color-classifier)
-
-EDA → LR vs XGBoost → SHAP → FGSM adversarial attack on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.**
-
-Minimum perturbation to fool the classifier: **+0.09 mg/L SO₂** — below winery measurement noise.
-
-<img src="./img/wine_correlation.png" alt="Feature Correlation Matrix" width="380"/> <img src="./img/wine_shap_bar.png" alt="XGBoost SHAP Feature Importance" width="340"/>
+EDA → LR vs XGBoost → SHAP → FGSM adversarial attack on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.** Minimum perturbation to fool the classifier: **+0.09 mg/L SO₂** — below winery measurement noise. The model is statistically unassailable; geometrically, it is one imperceptible nudge from failure.
 
 <img src="./img/wine_epsilon.png" alt="Decision Boundary Distance + Robustness vs Confidence" width="620"/>
 
 ---
 
+### Stage 2 — Applying It to a Real Security Problem
+
+The same question, on real network intrusion data: *what happens to a detector when an adversary crafts inputs to evade it — and can adversarial training fix that?*
+
+**[Network Intrusion Detection — Adversarial Hardening](https://github.com/sassom2112/network-intrusion-detection)**
+
+**sklearn · XGBoost · PyTorch · FGSM/PGD · SHAP · UNSW-NB15 (2.54M flows)**
+
+Full ML lifecycle: EDA → sklearn Pipeline → XGBoost (F1: **0.9640**, ROC-AUC: **0.9997**) → SHAP explainability → adversarial attack suite → adversarial training.
+
+SHAP TreeExplainer identifies the top features driving XGBoost predictions. Those same features become the primary targets for FGSM and PGD adversarial attacks — the explainability work directly informs the threat model.
+
+Attacks are applied with **domain-aware constraint projection**: adversarial flows are constrained to remain physically plausible (no negative packet counts, TTL ∈ [0,255], ports ∈ [0,65535]). Most published FGSM work on IDS ignores this — producing inputs that are impossible on real networks, and conclusions that don't hold operationally.
+
+<p align="center">
+  <img src="./img/fig_shap_beeswarm.png" alt="SHAP Beeswarm — Top Features by Impact" width="560"/>
+</p>
+
+**Key result: Madry PGD adversarial training eliminates the robustness gap with no clean-accuracy cost.**
+
+<p align="center">
+  <img src="./img/fig_hardening_comparison.png" alt="Standard vs. Adversarially Trained MLP — F1 and Evasion Rate vs Epsilon" width="800"/>
+</p>
+
+| | Clean F1 | F1 at ε=0.10 | F1 at ε=0.20 |
+|---|---|---|---|
+| Standard MLP | 0.9519 | 0.8865 | **0.2658** |
+| Adversarially Trained MLP | 0.9524 | **0.9520** | **0.9494** |
+
+At ε=0.20 the standard model collapses to F1=0.27 — near-random detection. The hardened model retains **99.7% of clean performance**. No accuracy-robustness tradeoff.
+
+**Transfer attack**: adversarial examples crafted against the MLP surrogate evade the XGBoost classifier at **16–18%** — a 15× increase in false negatives over the clean baseline. The attack transfers across model families.
+
+<p align="center">
+  <img src="./img/fig_robustness_curves.png" alt="FGSM vs PGD — F1, Accuracy, Evasion Rate vs Epsilon" width="800"/>
+</p>
+
+---
+
+### Stage 3 — The Same Principle at the System Level
+
+An LLM-based security agent faces an analogous threat: an attacker who can write to logs, craft alert metadata, or control file system artifacts can influence what the agent sees and concludes. Prompt-level guardrails are the equivalent of a standard (non-hardened) classifier — they work until the adversary pushes past ε.
+
+The architectural answer at the model level was adversarial training with separation between clean and adversarial loss. The architectural answer at the system level is the same kind of separation: agents that receive findings but not reasoning, auditors that have a mandate to refute rather than confirm, tool servers that validate before any subprocess executes.
+
+---
+
+**[ADVERSA — Autonomous Windows Forensic Investigation](https://github.com/sassom2112/adversa)**
+
+*SANS FIND EVIL! Hackathon 2026 · Tested on SIFT Workstation*
+
+**MCP · Windows Forensics · Dual-Agent Architecture · MITRE ATT&CK**
+
+Three-phase pipeline for dead-disk and memory forensics on Windows images:
+
+1. **Deterministic triage** — 25 SIFT commands, corpus-calibrated log-odds scoring across 9 MITRE techniques. No LLM in the loop, no hallucination surface.
+2. **Agentic investigation** — Claude Sonnet sequences tool calls like a senior examiner: event logs → prefetch → registry hives → MFT → shellbags → hash verification. Receives raw artifacts only — no Pass 1 scores, no technique labels.
+3. **Forensic auditor** — receives the finding list only, no access to prior reasoning. Mandate: assume every finding is a false positive until the filesystem proves otherwise.
+
+On the nfury test image: triage pass scored 9 techniques. The adversarial auditor confirmed 2, refuted 7. Without architectural separation, 7 false accusations would have entered the report. Prompt instructions do not prevent this. Separation does.
+
+<p align="center">
+  <img src="./img/adversa-architecture.png" alt="ADVERSA Layered Forensic Architecture" height="200"/>
+  <img src="./img/adversa-guardrails.png" alt="ADVERSA Guardrails — 4-gate validator" height="200"/>
+</p>
+
+> A full disk + memory investigation runs in 17 minutes at $14 in API cost. LLMs hallucinate. In forensics, a hallucination is a false accusation. The architecture has to be defensible, not the prompt.
+
+---
+
+**[Elastic IR Agent](https://github.com/sassom2112/Elastic-ir-agent)**
+
+*Elastic Agent Builder × Google Cloud Agent Builder Hackathon 2026*
+
+**Elasticsearch · Gemini · ES|QL · MCP**
+
+Autonomous IR agent with hybrid semantic + ES|QL search over security event data. Write-back memory builds persistent investigation context across sessions. Detects lateral movement, brute force, and credential access patterns with structured threat correlation at query time.
+
+---
+
+**[Splunk IR Agent](https://github.com/sassom2112/splunk-agentic-ir)**
+
+*Splunk Agentic Ops Hackathon 2026*
+
+**Splunk · MITRE ATT&CK · SPL · Python**
+
+End-to-end autonomous incident investigation triggered by a single alert. Maps every finding to MITRE ATT&CK and generates analyst-ready IR reports. Covers brute force, lateral movement, and credential access across Splunk data.
+
+---
+
+## Deployed Applications
+
+**[MNIST Digit Recognition](https://github.com/sassom2112/mnist-digit-recognition)** · [![Live](https://img.shields.io/badge/Live-digits.di--sasso.com-blue?style=flat-square)](https://digits.di-sasso.com)
+
+Draw a digit → Flask API → PyTorch CNN → per-digit confidence scores + Conv layer filter visualization in real time. Deployed on AWS (Lambda + API Gateway + CloudFront), containerized with Docker.
+
+<img src="./img/draw.png" alt="MNIST draw canvas" width="340"/> <img src="./img/hiddenlayer.png" alt="Conv layer filter visualization" width="330"/>
+
+**[LSTM Text Generation](https://github.com/sassom2112/lstm-text-prediction)** · [![Live](https://img.shields.io/badge/Live-lstm.di--sasso.com-blue?style=flat-square)](https://lstm.di-sasso.com)
+
+Prompt → two-layer PyTorch LSTM → top-10 next-word probabilities. Intentionally undertrained to demonstrate why attention mechanisms exist. Deployed on Render.
+
+<img src="./img/lstm.png" alt="LSTM next-word probability bars" width="700"/>
+
+---
+
+## Foundations
+
+| Project | What it demonstrates |
+|---------|---------------------|
+| [Gradient Descent from Scratch](https://github.com/sassom2112/regression-optimization) | Manual gradient descent vs. autograd — what optimizers actually compute, no black box |
+| [GAN: Oxford Flowers](https://github.com/sassom2112/oxford-flowers-gan) | Adversarial training dynamics: generator vs. discriminator across 250 epochs |
+
+---
+
+**MIT xPro — Deep Learning: Mastering Neural Networks** <img src="./img/Deep Learning_ Mastering Neural Networks.png" alt="Cert" width="90"/>
+
+---
+
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
 ![Claude](https://img.shields.io/badge/Claude_API-D97757?style=for-the-badge&logo=anthropic&logoColor=white)
 ![MCP](https://img.shields.io/badge/MCP_Server-000000?style=for-the-badge&logo=anthropic&logoColor=white)
+![sklearn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-189AB4?style=for-the-badge&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
-![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Snyk](https://img.shields.io/badge/Snyk-4C4A73?style=for-the-badge&logo=snyk&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![Snyk](https://img.shields.io/badge/Snyk-4C4A73?style=for-the-badge&logo=snyk&logoColor=white)
