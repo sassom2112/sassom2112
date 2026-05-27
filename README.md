@@ -1,6 +1,8 @@
-> **The question I keep returning to:** can a security system hold when the attacker understands it?
+# Adversarial ML Researcher · AI Red Teamer · Agentic Security Engineer
+
+> I break AI systems. Then I build ones that hold.
 >
-> A classifier that reaches 99% accuracy under clean conditions will collapse under adversarial pressure — unless it was built with that pressure in mind. I've spent the last two years finding out exactly where that collapse happens and what architectural choices prevent it. At the model level. At the system level. In real security data.
+> Every model in this portfolio was attacked after it was trained — with domain-constrained adversarial examples, black-box transfer attacks, and shortcut learning exploitation. The agentic systems were designed from the start assuming a capable adversary controls the input. The same question drives all of it: **can a security system hold when the attacker understands it?**
 
 ---
 
@@ -32,6 +34,8 @@ GradCAM on the fine-tuned model exposes shortcut learning: the 30 km/h classifie
 **[Wine Color Classification — Adversarial Analysis](https://github.com/sassom2112/wine-color-classifier)**
 
 EDA → LR vs XGBoost → SHAP → FGSM adversarial attack on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.** Minimum perturbation to fool the classifier: **+0.09 mg/L SO₂** — below winery measurement noise. The model is statistically unassailable; geometrically, it is one imperceptible nudge from failure.
+
+The features SHAP identifies as most important are the exact features FGSM identifies as most exploitable. **Explainability is a roadmap to the attack surface.** Transfer attack: 16.9% of adversarial examples crafted against logistic regression fool XGBoost — black-box evasion with no access to the target model.
 
 <img src="./img/wine_epsilon.png" alt="Decision Boundary Distance + Robustness vs Confidence" width="620"/>
 
@@ -96,6 +100,8 @@ Three-phase pipeline for dead-disk and memory forensics on Windows images:
 2. **Agentic investigation** — Claude Sonnet sequences tool calls like a senior examiner: event logs → prefetch → registry hives → MFT → shellbags → hash verification. Receives raw artifacts only — no Pass 1 scores, no technique labels.
 3. **Forensic auditor** — receives the finding list only, no access to prior reasoning. Mandate: assume every finding is a false positive until the filesystem proves otherwise.
 
+Detection rules are trained via **automated Red Teaming**: a Red Agent generates evasion variants of known attack patterns against real Mordor/OTRF Sysmon telemetry; a Blue Agent learns to catch them. 3,000 iterations, 1,245 evasion variants evolved, 83 signals learned — with zero human intervention. The Red Agent is not a data augmentation trick. It is an adversary.
+
 On the nfury test image: triage pass scored 9 techniques. The adversarial auditor confirmed 2, refuted 7. Without architectural separation, 7 false accusations would have entered the report. Prompt instructions do not prevent this. Separation does.
 
 <p align="center">
@@ -113,7 +119,9 @@ On the nfury test image: triage pass scored 9 techniques. The adversarial audito
 
 **Elasticsearch · Gemini · ES|QL · MCP**
 
-Autonomous IR agent with hybrid semantic + ES|QL search over security event data. Write-back memory builds persistent investigation context across sessions. Detects lateral movement, brute force, and credential access patterns with structured threat correlation at query time.
+Autonomous IR agent with hybrid semantic + ES|QL search over 73,909 real Windows attack events. Write-back memory builds persistent investigation context across sessions — with structural session isolation: `search_memory` is hard-scoped to the current `session_id` at the dispatch layer. The model cannot query across investigations regardless of what it requests. **IOC contamination between cases is blocked architecturally, not by prompt instruction.**
+
+Memory content is sanitized before any Elasticsearch write — control characters stripped, input capped at 10,000 chars — explicitly to block indirect prompt injection via poisoned retrieval. An independent Forensic Auditor pass re-queries Elastic with read-only tools and labels every MITRE claim VERIFIED / REFUTED / UNVERIFIABLE with raw event evidence.
 
 ---
 
@@ -123,7 +131,9 @@ Autonomous IR agent with hybrid semantic + ES|QL search over security event data
 
 **Splunk · MITRE ATT&CK · SPL · Python**
 
-End-to-end autonomous incident investigation triggered by a single alert. Maps every finding to MITRE ATT&CK and generates analyst-ready IR reports. Covers brute force, lateral movement, and credential access across Splunk data.
+End-to-end autonomous incident investigation triggered by a single alert — brute force, lateral movement, credential access, mapped to MITRE ATT&CK, IR report generated before an analyst opens their laptop.
+
+The security boundary treats the model as untrusted input. All six SPL templates are read-only `search` queries — no `collect`, `outputlookup`, or write-back commands exist anywhere in the codebase. Format-substituted fields are validated before insertion: `earliest`/`latest` against a strict regex allowlist, `index` against `[a-zA-Z0-9_\-]` only. A malicious model output cannot append `| outputlookup evil` to a query. The tool dispatch allowlist blocks unknown tool names before any Splunk call executes.
 
 ---
 
