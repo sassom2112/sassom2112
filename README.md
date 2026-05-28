@@ -80,6 +80,22 @@ At ε=0.20 the standard model collapses to F1=0.27 — near-random detection. Th
 
 ---
 
+**[CATT-CCS — Constraint Inflation in Adversarial NIDS Evaluation](https://github.com/sassom2112/catt-ccs)**
+
+*Research paper · ACM CCS 2027 (under preparation)*
+
+**PyTorch · scikit-learn · XGBoost · FGSM/PGD · UNSW-NB15 · CICIDS-2017 · NSL-KDD**
+
+The network intrusion work above revealed that most published adversarial NIDS evaluations run unconstrained gradient attacks — producing inputs with negative TTL values, sub-zero packet counts, and rates outside [0,1] that can never appear on a real network. The reported evasion rates are inflated by how easily the optimizer exploits physically infeasible feature space.
+
+This paper formalizes the problem, builds a reusable constraint projection library, and measures the gap across three classifier architectures (MLP, Random Forest, XGBoost) and three benchmark datasets with three independent random seeds each.
+
+**At ε=0.20 on UNSW-NB15: unconstrained PGD reports 79% evasion. Constrained PGD — the only physically achievable result — reports 7%. The gap is 72 percentage points.**
+
+The gap scales with constraint tightness across datasets (67–72 pp on UNSW-NB15 and NSL-KDD, 12 pp on CICIDS-2017), confirming the mechanism rather than an artifact of any single benchmark. Transfer results reveal that gradient-based surrogate attacks transfer near-perfectly to RF and XGBoost on CICFlowMeter features, but only moderately on mixed-type NIDS features. 65 unit tests, three Colab notebooks, fully reproducible benchmark suite released with the paper.
+
+---
+
 ### Stage 3 — The Same Principle at the System Level
 
 An LLM-based security agent faces an analogous threat: an attacker who can write to logs, craft alert metadata, or control file system artifacts can influence what the agent sees and concludes. Prompt-level guardrails are the equivalent of a standard (non-hardened) classifier — they work until the adversary pushes past ε.
