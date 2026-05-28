@@ -55,7 +55,7 @@ SHAP TreeExplainer identifies the top features driving XGBoost predictions. Thos
 
 Attacks are applied with **domain-aware constraint projection**: adversarial flows are constrained to remain physically plausible (no negative packet counts, TTL ∈ [0,255], ports ∈ [0,65535]). Most published FGSM work on IDS ignores this — producing inputs that are impossible on real networks, and conclusions that don't hold operationally.
 
-**Black-box fingerprinting**: a PyTorch MLP surrogate is trained to approximate the XGBoost decision boundary using only input-output queries — no access to the target model's weights, architecture, or training data. Adversarial examples crafted against the surrogate transfer to XGBoost at **16–18%** evasion — a **15× increase in false negatives** over the clean baseline. This is the operational threat model: an adversary who can probe a deployed classifier but cannot read its internals.
+**Transfer attack via surrogate model**: a PyTorch MLP is trained on the same feature space to approximate the XGBoost decision boundary. Adversarial examples crafted against the surrogate transfer to XGBoost at **16–18%** evasion — a **15× increase in false negatives** over the clean baseline — without accessing the target model's weights or architecture. This is the first step in the operational threat model: an adversary who understands the feature space can evade a deployed classifier they cannot directly inspect.
 
 <p align="center">
   <img src="./img/fig_shap_beeswarm.png" alt="SHAP Beeswarm — Top Features by Impact" width="560"/>
