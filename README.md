@@ -41,58 +41,63 @@ The features SHAP identifies as most important are the exact features FGSM ident
 
 ---
 
-### Stage 2 — Applying It to a Real Security Problem
+### Stage 2 — Adversarial ML Research: Network Intrusion Detection
 
-The same question, on real network intrusion data: *what happens to a detector when an adversary crafts inputs to evade it — and can adversarial training fix that?*
+The research question: *can a deployed NIDS classifier be evaded by an adversary who only understands the feature space — and do published evaluations actually measure that threat, or something easier?*
 
-**[Network Intrusion Detection — Adversarial Hardening](https://github.com/sassom2112/network-intrusion-detection)**
+Two projects answer it. The first builds and attacks a real IDS. The second formalizes what was wrong with every evaluation that came before it.
 
-**sklearn · XGBoost · PyTorch · FGSM/PGD · SHAP · UNSW-NB15 (2.54M flows)**
+---
 
-Full ML lifecycle: EDA → sklearn Pipeline → XGBoost (F1: **0.9640**, ROC-AUC: **0.9997**) → SHAP explainability → adversarial attack suite → adversarial training.
+**[Network Intrusion Detection — IDS Red Teaming & Adversarial Hardening](https://github.com/sassom2112/network-intrusion-detection)**
 
-SHAP TreeExplainer identifies the top features driving XGBoost predictions. Those same features become the primary targets for FGSM and PGD attacks — the explainability work directly informs the threat model.
+*sklearn · XGBoost · PyTorch · FGSM/PGD · SHAP · UNSW-NB15 (2.54M flows)*
 
-Attacks are applied with **domain-aware constraint projection**: adversarial flows are constrained to remain physically plausible (no negative packet counts, TTL ∈ [0,255], ports ∈ [0,65535]). Most published FGSM work on IDS ignores this — producing inputs that are impossible on real networks, and conclusions that don't hold operationally.
+► **Baseline**: Full ML lifecycle on 2.54M real network flows. XGBoost F1: **0.9640**, ROC-AUC: **0.9997**. SHAP TreeExplainer identifies the features driving every prediction — which also identifies the attack surface.
 
-**Transfer attack via surrogate model**: a PyTorch MLP is trained on the same feature space to approximate the XGBoost decision boundary. Adversarial examples crafted against the surrogate transfer to XGBoost at **16–18%** evasion — a **15× increase in false negatives** over the clean baseline — without accessing the target model's weights or architecture. This is the first step in the operational threat model: an adversary who understands the feature space can evade a deployed classifier they cannot directly inspect.
+► **Domain-constrained adversarial attacks**: FGSM and PGD are applied with constraint projection — adversarial flows stay physically plausible (TTL ∈ [0,255], no negative packet counts, ports ∈ [0,65535]). Most published NIDS attack work skips this, producing inputs impossible on real networks and conclusions that don't hold operationally.
 
-<p align="center">
-  <img src="./img/fig_shap_beeswarm.png" alt="SHAP Beeswarm — Top Features by Impact" width="560"/>
-</p>
+► **Black-box transfer attack**: A PyTorch MLP surrogate approximates the XGBoost decision boundary. Adversarial examples crafted against the surrogate — with no access to XGBoost weights — transfer at **16–18% evasion: a 15× increase in false negatives**. An adversary who understands the feature space can evade a classifier they cannot directly inspect.
 
-**Key result: Madry PGD adversarial training eliminates the robustness gap with no clean-accuracy cost.**
-
-<p align="center">
-  <img src="./img/fig_hardening_comparison.png" alt="Standard vs. Adversarially Trained MLP — F1 and Evasion Rate vs Epsilon" width="800"/>
-</p>
+► **Adversarial hardening**: Madry PGD adversarial training closes the gap with no clean-accuracy cost.
 
 | | Clean F1 | F1 at ε=0.10 | F1 at ε=0.20 |
 |---|---|---|---|
 | Standard MLP | 0.9519 | 0.8865 | **0.2658** |
 | Adversarially Trained MLP | 0.9524 | **0.9520** | **0.9494** |
 
-At ε=0.20 the standard model collapses to F1=0.27 — near-random detection. The hardened model retains **99.7% of clean performance**. No accuracy-robustness tradeoff.
+At ε=0.20 the standard model collapses to near-random detection. The hardened model retains **99.7% of clean F1**. No accuracy-robustness tradeoff.
 
 <p align="center">
-  <img src="./img/fig_robustness_curves.png" alt="FGSM vs PGD — F1, Accuracy, Evasion Rate vs Epsilon" width="800"/>
+  <img src="./img/fig_shap_beeswarm.png" alt="SHAP Beeswarm — Top Features by Impact" width="560"/>
+</p>
+<p align="center">
+  <img src="./img/fig_hardening_comparison.png" alt="Standard vs. Adversarially Trained MLP — F1 and Evasion Rate vs Epsilon" width="800"/>
 </p>
 
 ---
 
 **[CATT-CCS — Constraint Inflation in Adversarial NIDS Evaluation](https://github.com/sassom2112/catt-ccs)**
 
-*Research paper · ACM CCS 2027 (under preparation)*
+*Research paper targeting ACM CCS 2027 · PyTorch · scikit-learn · XGBoost · UNSW-NB15 · CICIDS-2017 · NSL-KDD*
 
-**PyTorch · scikit-learn · XGBoost · FGSM/PGD · UNSW-NB15 · CICIDS-2017 · NSL-KDD**
+The IDS work above raised a harder question: if unconstrained gradient attacks produce physically impossible inputs, what does it mean when a published paper reports 80% evasion? This paper answers it.
 
-The network intrusion work above revealed that most published adversarial NIDS evaluations run unconstrained gradient attacks — producing inputs with negative TTL values, sub-zero packet counts, and rates outside [0,1] that can never appear on a real network. The reported evasion rates are inflated by how easily the optimizer exploits physically infeasible feature space.
+► **The finding**: Unconstrained PGD is free to push features into regions that cannot exist on a real network — TTL of −119, rates of 2.4, negative durations. Every percentage point of evasion bought by violating domain physics is not a real attack. It is a measurement error.
 
-This paper formalizes the problem, builds a reusable constraint projection library, and measures the gap across three classifier architectures (MLP, Random Forest, XGBoost) and three benchmark datasets with three independent random seeds each.
+► **The gap, quantified across three datasets and three classifier architectures (MLP, Random Forest, XGBoost), three independent seeds each:**
 
-**At ε=0.20 on UNSW-NB15: unconstrained PGD reports 79% evasion. Constrained PGD — the only physically achievable result — reports 7%. The gap is 72 percentage points.**
+| Dataset | Constrained PGD | Unconstrained PGD | Gap |
+|---------|-----------------|-------------------|-----|
+| UNSW-NB15 (ε=0.20) | 7.1% | 79.1% | **+72.0 pp** |
+| NSL-KDD (ε=0.10) | 16.7% | 84.1% | **+67.4 pp** |
+| CICIDS-2017 (ε=0.30) | 74.9% | 87.1% | **+12.2 pp** |
 
-The gap scales with constraint tightness across datasets (67–72 pp on UNSW-NB15 and NSL-KDD, 12 pp on CICIDS-2017), confirming the mechanism rather than an artifact of any single benchmark. Transfer results reveal that gradient-based surrogate attacks transfer near-perfectly to RF and XGBoost on CICFlowMeter features, but only moderately on mixed-type NIDS features. 65 unit tests, three Colab notebooks, fully reproducible benchmark suite released with the paper.
+The gap scales with how many features have tight documented bounds. This is a mechanism, not a dataset artifact.
+
+► **Transfer**: MLP surrogate attacks transfer near-perfectly to RF and XGBoost on CICFlowMeter features; moderately on mixed-type NIDS features. The white-box inflation finding holds regardless of architecture.
+
+► **Infrastructure**: `netadv` library, 65 unit tests, three Colab benchmark notebooks, fully reproducible across seeds and datasets.
 
 ---
 
