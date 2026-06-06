@@ -101,17 +101,19 @@ The gap scales with how many features have tight documented bounds. This is a me
 
 ---
 
-**OT Anomaly Detection — Clustering Validation on PLC Register Data**
+**[OT Anomaly Detection — Replay Attack ML Blind Spot](https://github.com/sassom2112/ot-replay-detection)**
 
-*DBSCAN · HDBSCAN · K-Means · ICS/SCADA · Replay Attack Detection*
+*HDBSCAN · K-Means · ICSSim · Modbus/TCP · ICS/SCADA · Replay Attack Detection*
 
-Validated whether density-based and partition-based clustering can detect replay attacks on PLC register data — a scenario where an attacker captures legitimate control loop outputs and replays them, deceiving the physical layer while manipulating the process.
+Validated whether unsupervised clustering can detect replay attacks on PLC register data from the ICSSim dataset (45,718 network flows + 39,302 PLC snapshots). A replay attack captures legitimate Modbus/TCP traffic and re-sends it — the network layer sees structurally valid packets, and the physical process continues operating normally because the replayed commands are the right commands.
 
-► **The finding**: DBSCAN and HDBSCAN scored near-zero anomaly rates on the replayed segment. This is the correct output — a replay attack doesn't inject anomalous data. It injects legitimate data. The replayed register values follow valid operational bounds, correct timing cadence, and real physics. Density-based algorithms see a dense, structured trajectory and correctly label it as a valid cluster. The 165 noise points both algorithms did catch were the transition moments between operational phases — the brief frantic state shifts. The actual replay period is the quietest, most stable part of the dataset.
+► **HDBSCAN**: 7.7% of the replay window flagged as anomalous. Misses 92.3%. The replayed register values form a tight, dense, structurally normal cluster — calling it anomalous would contradict the density criterion. The algorithm is not under-tuned. The data genuinely is not anomalous at the physical layer.
 
-► **The fix**: Switching to k-means — which partitions by spatial distance rather than density — successfully identified the macro-state transition corresponding to the attack window. ARI against ground truth labels confirmed that relative-time-aligned features captured the operational shift even when no density-based algorithm could detect it.
+► **K-Means**: ARI = −0.0006. Recall on replay class: 0.00. The physical process does not transition to a new macro-state during replay — it stays in the same operating regime. Physical sensor variance ratio during the attack window vs. normal: **0.95–1.19 across all sensors**. The registers are statistically indistinguishable.
 
-► **Implication for OT detection**: The most dangerous ICS attacks — replay, man-in-the-middle at the process layer — are designed to not look anomalous at the physical layer. Detection requires correlating the network layer (showing replayed packets) with the physical layer (showing suspiciously static register values during a period when state should vary). This is the OT manifestation of the constraint inflation finding: the algorithm correctly classifies the replayed data as normal because it is physically normal. The attack operates at a layer the detector cannot see.
+► **Both detectors fail simultaneously for different structural reasons.** HDBSCAN fails because dense normal-looking data is not anomalous by definition. K-Means fails because there is no spatial partition boundary — the attack does not change the physical state. The correct detection is not a better anomaly detector. It is cross-layer: legitimate-looking network packets **+** suspicious physical stasis = replay signature. For a single-layer detector the attack is invisible by design.
+
+► **Connection to the constraint inflation finding**: the same failure mode as unconstrained adversarial examples — the algorithm correctly classifies the data as normal because it is normal at the layer being observed. The threat operates at a layer the model cannot see.
 
 ---
 
