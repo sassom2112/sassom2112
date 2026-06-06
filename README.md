@@ -101,6 +101,20 @@ The gap scales with how many features have tight documented bounds. This is a me
 
 ---
 
+**OT Anomaly Detection — Clustering Validation on PLC Register Data**
+
+*DBSCAN · HDBSCAN · K-Means · ICS/SCADA · Replay Attack Detection*
+
+Validated whether density-based and partition-based clustering can detect replay attacks on PLC register data — a scenario where an attacker captures legitimate control loop outputs and replays them, deceiving the physical layer while manipulating the process.
+
+► **The finding**: DBSCAN and HDBSCAN scored near-zero anomaly rates on the replayed segment. This is the correct output — a replay attack doesn't inject anomalous data. It injects legitimate data. The replayed register values follow valid operational bounds, correct timing cadence, and real physics. Density-based algorithms see a dense, structured trajectory and correctly label it as a valid cluster. The 165 noise points both algorithms did catch were the transition moments between operational phases — the brief frantic state shifts. The actual replay period is the quietest, most stable part of the dataset.
+
+► **The fix**: Switching to k-means — which partitions by spatial distance rather than density — successfully identified the macro-state transition corresponding to the attack window. ARI against ground truth labels confirmed that relative-time-aligned features captured the operational shift even when no density-based algorithm could detect it.
+
+► **Implication for OT detection**: The most dangerous ICS attacks — replay, man-in-the-middle at the process layer — are designed to not look anomalous at the physical layer. Detection requires correlating the network layer (showing replayed packets) with the physical layer (showing suspiciously static register values during a period when state should vary). This is the OT manifestation of the constraint inflation finding: the algorithm correctly classifies the replayed data as normal because it is physically normal. The attack operates at a layer the detector cannot see.
+
+---
+
 ### Stage 3 — The Same Principle at the System Level
 
 An LLM-based security agent faces an analogous threat: an attacker who can write to logs, craft alert metadata, or control file system artifacts can influence what the agent sees and concludes. Prompt-level guardrails are the equivalent of a standard (non-hardened) classifier — they work until the adversary pushes past ε.
