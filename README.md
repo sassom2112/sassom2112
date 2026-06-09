@@ -195,11 +195,11 @@ Draw a digit → Flask API → PyTorch CNN → per-digit confidence scores + Con
 
 <img src="./img/draw.png" alt="MNIST draw canvas" width="340"/> <img src="./img/hiddenlayer.png" alt="Conv layer filter visualization" width="330"/>
 
-**[LSTM Text Generation](https://github.com/sassom2112/lstm-text-prediction)** · [![Live](https://img.shields.io/badge/Live-lstm.di--sasso.com-blue?style=flat-square)](https://lstm.di-sasso.com)
+**[GPT-Nano Text Generation](https://github.com/sassom2112/lstm-text-prediction)** · [![Live](https://img.shields.io/badge/Live-lstm.di--sasso.com-blue?style=flat-square)](https://lstm.di-sasso.com)
 
-Prompt → two-layer PyTorch LSTM → top-10 next-word probabilities. Intentionally undertrained to demonstrate why attention mechanisms exist. Deployed on Render.
+Causal GPT-style transformer built from scratch — causal self-attention, BPE tokenization, weight tying, cosine LR decay. 7M params trained on WikiText-2 via a full AWS ML pipeline: S3 → SageMaker Training Job (RTX T4) → Serverless Endpoint → API Gateway + Lambda → React. Deployed at zero idle cost.
 
-<img src="./img/lstm.png" alt="LSTM next-word probability bars" width="700"/>
+<img src="./img/lstm.png" alt="GPT-nano next-token probability bars" width="700"/>
 
 ---
 
