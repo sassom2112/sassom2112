@@ -12,7 +12,7 @@
 
 Three classifiers. Three different attack surfaces. The same methodology each time: train the model, use GradCAM to find what it's actually responding to, then exploit it.
 
-**[Fashion-MNIST CNN — Adversarial Robustness](https://github.com/sassom2112/fashionmnist-cnn)**
+**Fashion-MNIST CNN — Adversarial Robustness**
 
 GradCAM reveals the Shirt classifier has no stable discriminative region — its decision boundary simultaneously borders Pullover, Coat, and T-shirt/top. Any gradient step finds a neighboring class almost instantly. At ε=0.10, accuracy collapses from 82% → 4%. Clean test accuracy: **82.3%**.
 
@@ -21,7 +21,7 @@ GradCAM reveals the Shirt classifier has no stable discriminative region — its
 
 ---
 
-**[VGG-11 Traffic Sign Classification — Adversarial Robustness](https://github.com/sassom2112/vgg11-traffic-sign-classifier)**
+**VGG-11 Traffic Sign Classification — Adversarial Robustness**
 
 Two-phase fine-tuning of VGG-11 on GTSRB (43 classes, 39K images): frozen backbone 63.9% → full fine-tuning **93.2%**. The 29-point gap is itself a finding — frozen ImageNet features fail to generalize to this visual domain, which means the model's confidence is not grounded in traffic sign geometry.
 
@@ -31,7 +31,7 @@ GradCAM confirms it: the 30 km/h classifier fires on background traffic lights a
 
 ---
 
-**[Wine Color Classification — Adversarial Analysis](https://github.com/sassom2112/wine-color-classifier)**
+**Wine Color Classification — Adversarial Analysis**
 
 EDA → LR vs XGBoost → SHAP → FGSM on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.** Minimum perturbation to flip a classification: **+0.09 mg/L SO₂** — below winery measurement noise. The model is statistically unassailable; geometrically, it is one imperceptible nudge from failure.
 
@@ -49,7 +49,7 @@ Two projects answer it. The first builds and attacks a real IDS. The second form
 
 ---
 
-**[Network Intrusion Detection — IDS Red Teaming & Adversarial Hardening](https://github.com/sassom2112/network-intrusion-detection)**
+**Network Intrusion Detection — IDS Red Teaming & Adversarial Hardening**
 
 *sklearn · XGBoost · PyTorch · FGSM/PGD · SHAP · UNSW-NB15 (2.54M flows)*
 
@@ -77,7 +77,7 @@ At ε=0.20 the standard model collapses to near-random detection. The hardened m
 
 ---
 
-**[CATT-CCS — Constraint Inflation in Adversarial NIDS Evaluation](https://github.com/sassom2112/catt-ccs)**
+**CATT-CCS — Constraint Inflation in Adversarial NIDS Evaluation**
 
 *Research paper targeting ACM CCS 2027 · PyTorch · scikit-learn · XGBoost · UNSW-NB15 · CICIDS-2017 · NSL-KDD*
 
@@ -101,7 +101,7 @@ The gap scales with how many features have tight documented bounds. This is a me
 
 ---
 
-**[OT Anomaly Detection — Replay Attack ML Blind Spot](https://github.com/sassom2112/ot-replay-detection)**
+**OT Anomaly Detection — Replay Attack ML Blind Spot**
 
 *HDBSCAN · K-Means · ICSSim · Modbus/TCP · ICS/SCADA · Replay Attack Detection*
 
@@ -125,7 +125,7 @@ The architectural answer at the model level was adversarial training with separa
 
 ---
 
-**[VERITAS — Autonomous Windows Forensic Investigation](https://github.com/sassom2112/veritas)**
+**VERITAS — Autonomous Windows Forensic Investigation**
 
 *SANS FIND EVIL! Hackathon 2026 · Tested on SIFT Workstation*
 
@@ -150,7 +150,7 @@ On the nfury test image: triage pass scored 9 techniques. The adversarial audito
 
 ---
 
-**[Elastic IR Agent](https://github.com/sassom2112/Elastic-ir-agent)**
+**Elastic IR Agent**
 
 *Elastic Agent Builder × Google Cloud Agent Builder Hackathon 2026*
 
@@ -162,7 +162,7 @@ Memory content is sanitized before any Elasticsearch write — control character
 
 ---
 
-**[Splunk IR Agent](https://github.com/sassom2112/splunk-agentic-ir)**
+**Splunk IR Agent**
 
 *Splunk Agentic Ops Hackathon 2026*
 
@@ -178,8 +178,8 @@ The security boundary treats the model as untrusted input. All six SPL templates
 
 | Project | What it demonstrates |
 |---------|---------------------|
-| [Gradient Descent from Scratch](https://github.com/sassom2112/regression-optimization) | Manual gradient descent vs. autograd — what optimizers actually compute, no black box |
-| [GAN: Oxford Flowers](https://github.com/sassom2112/oxford-flowers-gan) | Adversarial training dynamics: generator vs. discriminator across 250 epochs |
+| Gradient Descent from Scratch | Manual gradient descent vs. autograd — what optimizers actually compute, no black box |
+| GAN: Oxford Flowers | Adversarial training dynamics: generator vs. discriminator across 250 epochs |
 
 <img src="./img/flowers progression.png" alt="Generator Progression — Noise to Flowers across 250 epochs" width="720"/>
 
@@ -189,13 +189,13 @@ The security boundary treats the model as untrusted input. All six SPL templates
 
 ## Deployed Applications
 
-**[MNIST Digit Recognition](https://github.com/sassom2112/mnist-digit-recognition)** · [![Live](https://img.shields.io/badge/Live-digits.di--sasso.com-blue?style=flat-square)](https://digits.di-sasso.com)
+**MNIST Digit Recognition** · [![Live](https://img.shields.io/badge/Live-digits.di--sasso.com-blue?style=flat-square)](https://digits.di-sasso.com)
 
 Draw a digit → Flask API → PyTorch CNN → per-digit confidence scores + Conv layer filter visualization in real time. Deployed on AWS (Lambda + API Gateway + CloudFront), containerized with Docker.
 
 <img src="./img/draw.png" alt="MNIST draw canvas" width="340"/> <img src="./img/hiddenlayer.png" alt="Conv layer filter visualization" width="330"/>
 
-**[GPT-Nano Text Generation](https://github.com/sassom2112/lstm-text-prediction)** · [![Live](https://img.shields.io/badge/Live-lstm.di--sasso.com-blue?style=flat-square)](https://lstm.di-sasso.com)
+**GPT-Nano Text Generation** · [![Live](https://img.shields.io/badge/Live-lstm.di--sasso.com-blue?style=flat-square)](https://lstm.di-sasso.com)
 
 Causal GPT-style transformer built from scratch — causal self-attention, BPE tokenization, weight tying, cosine LR decay. 7M params trained on WikiText-2 via a full AWS ML pipeline: S3 → SageMaker Training Job (RTX T4) → Serverless Endpoint → API Gateway + Lambda → React. Deployed at zero idle cost.
 
