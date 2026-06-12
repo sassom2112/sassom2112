@@ -197,7 +197,7 @@ Draw a digit → PyTorch CNN → per-digit confidence scores + Conv layer activa
 
 ```mermaid
 graph LR
-    A["🖥️ React Canvas\nCloudflare Pages"] -->|"POST {pixels: [784×float]}"| B["🔀 API Gateway\nHTTP API"]
+    A["🖥️ React Canvas\nGitHub Pages"] -->|"POST {pixels: [784×float]}"| B["🔀 API Gateway\nHTTP API"]
     B -->|Lambda event| C["⚡ Lambda\nlambda_handler"]
     C -->|GetObject on cold start| D["🪣 S3\nmodel.pt"]
     D -->|state_dict| C
@@ -209,7 +209,7 @@ graph LR
 
 | Component | Action → Result | Data Contract | Strengths | Weaknesses |
 |---|---|---|---|---|
-| **Cloudflare Pages** (React) | User draws on canvas → normalizes pixels → sends array | `POST {"pixels": [784 × float ∈ [0,1]]}` | Zero idle cost; global CDN; env vars + build hooks | Canvas normalization must exactly match training preprocessing — mismatch silently degrades accuracy |
+| **GitHub Pages** (React) | User draws on canvas → normalizes pixels → sends array | `POST {"pixels": [784 × float ∈ [0,1]]}` | Zero idle cost; served directly from repo `build/` branch | Canvas normalization must exactly match training preprocessing — mismatch silently degrades accuracy; no server-side env vars |
 | **API Gateway** (HTTP API) | Routes POST /predict → Lambda invocation; handles OPTIONS preflight | HTTP request → `{httpMethod, body, headers}` Lambda event | TLS, throttling, CORS at the edge with no app code | 29s hard timeout; adds ~10ms per hop |
 | **Lambda** (`lambda_handler`) | Parses event body → validates pixels → calls `run_inference()` → returns JSON | `{pixels:[...]} → {prediction, confidences, conv1, conv2}` | Zero idle cost; auto-scales to zero; no server to manage | Cold start 2–4s for a PyTorch container; stateless — model reloads from S3 each cold start |
 | **S3** (model weights) | Serves `model.pt` on Lambda cold start → cached at `/tmp/model.pt` for warm invocations | Binary `GetObject` → PyTorch state dict (~1.7 MB) | Weights decoupled from container — update model without rebuilding image | Adds ~300–500ms to first cold start; not a factor on warm invocations |
@@ -223,8 +223,6 @@ graph LR
 **Lambda-native JSON handler over awsgi** — the original handler routed Lambda events through Flask's WSGI layer via `awsgi`. Removing it eliminated a translation layer and made the handler readable without Flask context. Flask still runs for local development; Lambda gets the raw handler.
 
 **S3 model loading over bundling weights in the container** — at 1.7 MB the weights could be bundled, but S3 separation means the model can be updated (retrained, quantized, swapped) without rebuilding and pushing a new container image.
-
-**Cloudflare Pages over GitHub Pages** — GitHub Pages is static files served from one edge. Cloudflare's CDN is global and supports environment variables, custom headers, and build hooks. The frontend API URL is an environment variable — no hardcoded endpoints in committed code.
 
 **Conv activation visualization** — not a demo flourish. The conv maps show what the model attends to per digit. On ambiguous pairs (3/8, 4/9) the activation shift is visible in real time — it's a lightweight, model-native explainability layer that costs nothing at inference time.
 
