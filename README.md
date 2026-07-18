@@ -87,17 +87,17 @@ The IDS work above raised a harder question: if unconstrained gradient attacks p
 
 ► **The gap, quantified across three datasets and three classifier architectures (MLP, Random Forest, XGBoost), three independent seeds each:**
 
-| Dataset | Constrained PGD | Unconstrained PGD | Gap |
-|---------|-----------------|-------------------|-----|
-| UNSW-NB15 (ε=0.20) | 7.1% | 79.1% | **+72.0 pp** |
-| NSL-KDD (ε=0.10) | 16.7% | 84.1% | **+67.4 pp** |
-| CICIDS-2017 (ε=0.30) | 74.9% | 87.1% | **+12.2 pp** |
+| Dataset | White-box PGD evasion gap (constrained → unconstrained) |
+|---------|---------------------------------------------------------|
+| UNSW-NB15 (ε=0.30) | **+52.2 pp** |
+| NSL-KDD (ε=0.10) | **+70.6 pp** |
+| CICIDS-2017 (ε=0.10) | **+14.3 pp** |
 
-The gap scales with how many features have tight documented bounds. This is a mechanism, not a dataset artifact.
+Every headline number is bound to a SHA-256-certified provenance sidecar and a CI claim-checker. The gap scales with how many features have tight documented bounds. This is a mechanism, not a dataset artifact.
 
 ► **Transfer**: MLP surrogate attacks transfer near-perfectly to RF and XGBoost on CICFlowMeter features; moderately on mixed-type NIDS features. The white-box inflation finding holds regardless of architecture.
 
-► **Infrastructure**: `netadv` library, 65 unit tests, three Colab benchmark notebooks, fully reproducible across seeds and datasets.
+► **Infrastructure**: `netadv` library, a full unit-test suite (incl. Hypothesis property tests), three Colab benchmark notebooks, fully reproducible across seeds and datasets.
 
 ---
 
@@ -146,7 +146,7 @@ On the nfury test image: triage pass scored 9 techniques. The adversarial audito
   <img src="./img/adversa-guardrails.png" alt="VERITAS Guardrails — 4-gate validator" height="200"/>
 </p>
 
-> A full disk + memory investigation runs in 17 minutes at $14 in API cost. LLMs hallucinate. In forensics, a hallucination is a false accusation. The architecture has to be defensible, not the prompt.
+> A full disk + memory investigation runs in roughly 17 minutes for a few dollars in API cost. LLMs hallucinate. In forensics, a hallucination is a false accusation. The architecture has to be defensible, not the prompt.
 
 ---
 
