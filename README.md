@@ -1,4 +1,4 @@
-# Adversarial ML Researcher · AI Red Teamer · Agentic Security Engineer
+# Adversarial ML Researcher · AI R3d T34m3r · Agentic Security Engineer
 
 ## Adversarial ML
 
@@ -116,3 +116,20 @@ Draw a digit and a PyTorch CNN returns per-digit confidences with live conv acti
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![Snyk](https://img.shields.io/badge/Snyk-4C4A73?style=for-the-badge&logo=snyk&logoColor=white)
+
+---
+
+## s3cur1ty c4t
+
+<img src="./img/s3cur1ty_c4t.jpg" alt="s3cur1ty c4t" width="300"/>
+
+*ch13f m0r4l3 0ff1c3r · 4ll f1nd1ngs p33r r3v13w3d*
+
+<sub>photo: [Jinterwas](https://commons.wikimedia.org/wiki/File:Fluffy_little_thing_-2_(3042607207).jpg), CC BY 2.0</sub>
+
+```
+      |\      _,,,---,,_
+ZZZzz /,`.-'`'    -.  ;-;;,_
+     |,4-  ) )-,_. ,\ (  `'-'
+    '---''(_/--'  `-'\_) 
+```
