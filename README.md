@@ -2,188 +2,86 @@
 
 > I break AI systems. Then I build ones that hold.
 >
-> Every model in this portfolio was attacked after it was trained — with domain-constrained adversarial examples, black-box transfer attacks, and shortcut learning exploitation. The agentic systems were designed from the start assuming a capable adversary controls the input. The same question drives all of it: **can a security system hold when the attacker understands it?**
+> Every model here was attacked after it was trained, and every agentic system assumes the adversary controls the input.
 
 ---
 
-## The Progression
+## Adversarial ML
 
-### Stage 1 — Finding Where Models Break
+**Fashion-MNIST CNN**
 
-Three classifiers. Three different attack surfaces. The same methodology each time: train the model, use GradCAM to find what it's actually responding to, then exploit it.
+GradCAM traced the Shirt class to an unstable decision boundary, and FGSM at ε=0.10 collapsed accuracy from 82% to 4%.
 
-**Fashion-MNIST CNN — Adversarial Robustness**
-
-GradCAM reveals the Shirt classifier has no stable discriminative region — its decision boundary simultaneously borders Pullover, Coat, and T-shirt/top. Any gradient step finds a neighboring class almost instantly. At ε=0.10, accuracy collapses from 82% → 4%. Clean test accuracy: **82.3%**.
-
-<img src="./img/fashionmnist_gradcam.png" alt="GradCAM activations — all 10 garment classes" width="720"/>
+<img src="./img/fashionmnist_gradcam.png" alt="GradCAM activations - all 10 garment classes" width="720"/>
 <img src="./img/fashionmnist_fgsm_per_class.png" alt="Per-class accuracy drop under FGSM (ε=0.10)" width="600"/>
 
----
+**VGG-11 Traffic Sign Classification**
 
-**VGG-11 Traffic Sign Classification — Adversarial Robustness**
+Fine-tuned VGG-11 to 93.2% on GTSRB, where GradCAM shows the speed limit classifier keys on background context rather than the sign itself, the same failure mode behind physical adversarial patches.
 
-Two-phase fine-tuning of VGG-11 on GTSRB (43 classes, 39K images): frozen backbone 63.9% → full fine-tuning **93.2%**. The 29-point gap is itself a finding — frozen ImageNet features fail to generalize to this visual domain, which means the model's confidence is not grounded in traffic sign geometry.
+<img src="./img/vgg11_gradcam.png" alt="GradCAM - VGG-11 attention heatmaps on GTSRB" width="720"/>
 
-GradCAM confirms it: the 30 km/h classifier fires on background traffic lights and urban intersection context — not the sign itself. The model learned a proxy for speed limits. That proxy is the attack surface. This is the same failure mode behind physical-world adversarial patches on stop signs.
+**Wine Color Classification**
 
-<img src="./img/vgg11_gradcam.png" alt="GradCAM — VGG-11 attention heatmaps on GTSRB" width="720"/>
-
----
-
-**Wine Color Classification — Adversarial Analysis**
-
-EDA → LR vs XGBoost → SHAP → FGSM on 6,497 samples. **F1: 0.9938 · ROC-AUC: 0.9999.** Minimum perturbation to flip a classification: **+0.09 mg/L SO₂** — below winery measurement noise. The model is statistically unassailable; geometrically, it is one imperceptible nudge from failure.
-
-The features SHAP identifies as most important are the exact features FGSM identifies as most exploitable. **Explainability is a roadmap to the attack surface.** Transfer attack: 16.9% of adversarial examples crafted against logistic regression fool XGBoost — black-box evasion with no access to the target model's gradients or architecture.
+A statistically near-perfect classifier (F1 0.9938) flips on a 0.09 mg/L SO₂ perturbation, and the features SHAP ranks most important are exactly the ones FGSM exploits.
 
 <img src="./img/wine_epsilon.png" alt="Decision Boundary Distance + Robustness vs Confidence" width="620"/>
 
----
+**Network Intrusion Detection: IDS Red Teaming and Hardening**
 
-### Stage 2 — Adversarial ML Research: Network Intrusion Detection
-
-The research question: *can a deployed NIDS classifier be evaded by an adversary who only understands the feature space — and do published evaluations actually measure that threat, or something easier?*
-
-Two projects answer it. The first builds and attacks a real IDS. The second formalizes what was wrong with every evaluation that came before it.
-
----
-
-**Network Intrusion Detection — IDS Red Teaming & Adversarial Hardening**
-
-*sklearn · XGBoost · PyTorch · FGSM/PGD · SHAP · UNSW-NB15 (2.54M flows)*
-
-► **Baseline**: Full ML lifecycle on 2.54M real network flows. XGBoost F1: **0.9640**, ROC-AUC: **0.9997**. SHAP TreeExplainer identifies the features driving every prediction — which also identifies the attack surface.
-
-► **Domain-constrained adversarial attacks**: FGSM and PGD are applied with constraint projection — adversarial flows stay physically plausible (TTL ∈ [0,255], no negative packet counts, ports ∈ [0,65535]). Most published NIDS attack work skips this, producing inputs impossible on real networks and conclusions that don't hold operationally.
-
-► **Black-box transfer attack**: A PyTorch MLP surrogate approximates the XGBoost decision boundary. Adversarial examples crafted against the surrogate — with no access to XGBoost weights — transfer at **16–18% evasion: a 15× increase in false negatives**. An adversary who understands the feature space can evade a classifier they cannot directly inspect.
-
-► **Adversarial hardening**: Madry PGD adversarial training closes the gap with no clean-accuracy cost.
-
-| | Clean F1 | F1 at ε=0.10 | F1 at ε=0.20 |
-|---|---|---|---|
-| Standard MLP | 0.9519 | 0.8865 | **0.2658** |
-| Adversarially Trained MLP | 0.9524 | **0.9520** | **0.9494** |
-
-At ε=0.20 the standard model collapses to near-random detection. The hardened model retains **99.7% of clean F1**. No accuracy-robustness tradeoff.
+Built and attacked an XGBoost IDS on 2.54M UNSW-NB15 flows with domain-constrained FGSM/PGD and black-box transfer attacks, then PGD adversarial training restored F1 at ε=0.20 from 0.27 to 0.95 with no clean-accuracy cost.
 
 <p align="center">
-  <img src="./img/fig_shap_beeswarm.png" alt="SHAP Beeswarm — Top Features by Impact" width="560"/>
+  <img src="./img/fig_shap_beeswarm.png" alt="SHAP Beeswarm - Top Features by Impact" width="560"/>
 </p>
 <p align="center">
-  <img src="./img/fig_hardening_comparison.png" alt="Standard vs. Adversarially Trained MLP — F1 and Evasion Rate vs Epsilon" width="800"/>
+  <img src="./img/fig_hardening_comparison.png" alt="Standard vs. Adversarially Trained MLP - F1 and Evasion Rate vs Epsilon" width="800"/>
 </p>
 
----
+**CATT-CCS: Constraint Inflation in Adversarial NIDS Evaluation**
 
-**CATT-CCS — Constraint Inflation in Adversarial NIDS Evaluation**
+Research paper targeting ACM CCS 2027 showing that unconstrained gradient attacks inflate published NIDS evasion rates by 14 to 71 percentage points across three datasets by generating physically impossible traffic.
 
-*Research paper targeting ACM CCS 2027 · PyTorch · scikit-learn · XGBoost · UNSW-NB15 · CICIDS-2017 · NSL-KDD*
+**OT Anomaly Detection: Replay Attack Blind Spot**
 
-The IDS work above raised a harder question: if unconstrained gradient attacks produce physically impossible inputs, what does it mean when a published paper reports 80% evasion? This paper answers it.
-
-► **The finding**: Unconstrained PGD is free to push features into regions that cannot exist on a real network — TTL of −119, rates of 2.4, negative durations. Every percentage point of evasion bought by violating domain physics is not a real attack. It is a measurement error.
-
-► **The gap, quantified across three datasets and three classifier architectures (MLP, Random Forest, XGBoost), three independent seeds each:**
-
-| Dataset | White-box PGD evasion gap (constrained → unconstrained) |
-|---------|---------------------------------------------------------|
-| UNSW-NB15 (ε=0.30) | **+52.2 pp** |
-| NSL-KDD (ε=0.10) | **+70.6 pp** |
-| CICIDS-2017 (ε=0.10) | **+14.3 pp** |
-
-Every headline number is bound to a SHA-256-certified provenance sidecar and a CI claim-checker. The gap scales with how many features have tight documented bounds. This is a mechanism, not a dataset artifact.
-
-► **Transfer**: MLP surrogate attacks transfer near-perfectly to RF and XGBoost on CICFlowMeter features; moderately on mixed-type NIDS features. The white-box inflation finding holds regardless of architecture.
-
-► **Infrastructure**: `netadv` library, a full unit-test suite (incl. Hypothesis property tests), three Colab benchmark notebooks, fully reproducible across seeds and datasets.
+HDBSCAN and K-Means both miss Modbus/TCP replay attacks on ICSSim data because replayed traffic is statistically normal at every layer a single-layer detector can observe.
 
 ---
 
-**OT Anomaly Detection — Replay Attack ML Blind Spot**
+## Agentic Security
 
-*HDBSCAN · K-Means · ICSSim · Modbus/TCP · ICS/SCADA · Replay Attack Detection*
+**VERITAS: Autonomous Windows Forensic Investigation** · *SANS FIND EVIL! Hackathon 2026*
 
-Validated whether unsupervised clustering can detect replay attacks on PLC register data from the ICSSim dataset (45,718 network flows + 39,302 PLC snapshots). A replay attack captures legitimate Modbus/TCP traffic and re-sends it — the network layer sees structurally valid packets, and the physical process continues operating normally because the replayed commands are the right commands.
-
-► **HDBSCAN**: 7.7% of the replay window flagged as anomalous. Misses 92.3%. The replayed register values form a tight, dense, structurally normal cluster — calling it anomalous would contradict the density criterion. The algorithm is not under-tuned. The data genuinely is not anomalous at the physical layer.
-
-► **K-Means**: ARI = −0.0006. Recall on replay class: 0.00. The physical process does not transition to a new macro-state during replay — it stays in the same operating regime. Physical sensor variance ratio during the attack window vs. normal: **0.95–1.19 across all sensors**. The registers are statistically indistinguishable.
-
-► **Both detectors fail simultaneously for different structural reasons.** HDBSCAN fails because dense normal-looking data is not anomalous by definition. K-Means fails because there is no spatial partition boundary — the attack does not change the physical state. The correct detection is not a better anomaly detector. It is cross-layer: legitimate-looking network packets **+** suspicious physical stasis = replay signature. For a single-layer detector the attack is invisible by design.
-
-► **Connection to the constraint inflation finding**: the same failure mode as unconstrained adversarial examples — the algorithm correctly classifies the data as normal because it is normal at the layer being observed. The threat operates at a layer the model cannot see.
-
----
-
-### Stage 3 — The Same Principle at the System Level
-
-An LLM-based security agent faces an analogous threat: an attacker who can write to logs, craft alert metadata, or control file system artifacts can influence what the agent sees and concludes. Prompt-level guardrails are the equivalent of a standard (non-hardened) classifier — they work until the adversary pushes past ε.
-
-The architectural answer at the model level was adversarial training with separation between clean and adversarial loss. The architectural answer at the system level is the same kind of separation: agents that receive findings but not reasoning, auditors that have a mandate to refute rather than confirm, tool servers that validate before any subprocess executes.
-
----
-
-**VERITAS — Autonomous Windows Forensic Investigation**
-
-*SANS FIND EVIL! Hackathon 2026 · Tested on SIFT Workstation*
-
-**MCP · Windows Forensics · Dual-Agent Architecture · MITRE ATT&CK**
-
-Three-phase pipeline for dead-disk and memory forensics on Windows images:
-
-1. **Deterministic triage** — 25 SIFT commands, corpus-calibrated log-odds scoring across 9 MITRE techniques. No LLM in the loop, no hallucination surface.
-2. **Agentic investigation** — Claude Sonnet sequences tool calls like a senior examiner: event logs → prefetch → registry hives → MFT → shellbags → hash verification. Receives raw artifacts only — no Pass 1 scores, no technique labels.
-3. **Forensic auditor** — receives the finding list only, no access to prior reasoning. Mandate: assume every finding is a false positive until the filesystem proves otherwise.
-
-Detection rules are trained via **automated Red Teaming**: a Red Agent generates evasion variants of known attack patterns against real Mordor/OTRF Sysmon telemetry; a Blue Agent learns to catch them. 3,000 iterations, 1,245 evasion variants evolved, 83 signals learned — with zero human intervention. The Red Agent is not a data augmentation trick. It is an adversary.
-
-On the nfury test image: triage pass scored 9 techniques. The adversarial auditor confirmed 2, refuted 7. Without architectural separation, 7 false accusations would have entered the report. Prompt instructions do not prevent this. Separation does.
+Three-phase forensic pipeline in which an isolated adversarial auditor refuted 7 of 9 triage findings before they reached the report, blocking false accusations architecturally rather than by prompt.
 
 <p align="center">
   <img src="./img/adversa-architecture.png" alt="VERITAS Layered Forensic Architecture" height="200"/>
-  <img src="./img/adversa-guardrails.png" alt="VERITAS Guardrails — 4-gate validator" height="200"/>
+  <img src="./img/adversa-guardrails.png" alt="VERITAS Guardrails - 4-gate validator" height="200"/>
 </p>
 
-> A full disk + memory investigation runs in roughly 17 minutes for a few dollars in API cost. LLMs hallucinate. In forensics, a hallucination is a false accusation. The architecture has to be defensible, not the prompt.
+**Elastic IR Agent** · *Elastic × Google Cloud Agent Builder Hackathon 2026*
 
----
+Autonomous IR agent over 73,909 real Windows attack events, with memory hard-scoped per session so IOC contamination between cases is blocked at the dispatch layer, not by prompt instruction.
 
-**Elastic IR Agent**
+**Splunk IR Agent** · *Splunk Agentic Ops Hackathon 2026*
 
-*Elastic Agent Builder × Google Cloud Agent Builder Hackathon 2026*
-
-**Elasticsearch · Gemini · ES|QL · MCP**
-
-Autonomous IR agent with hybrid semantic + ES|QL search over 73,909 real Windows attack events. Write-back memory builds persistent investigation context across sessions — with structural session isolation: `search_memory` is hard-scoped to the current `session_id` at the dispatch layer. The model cannot query across investigations regardless of what it requests. **IOC contamination between cases is blocked architecturally, not by prompt instruction.**
-
-Memory content is sanitized before any Elasticsearch write — control characters stripped, input capped at 10,000 chars — explicitly to block indirect prompt injection via poisoned retrieval. An independent Forensic Auditor pass re-queries Elastic with read-only tools and labels every MITRE claim VERIFIED / REFUTED / UNVERIFIABLE with raw event evidence.
-
----
-
-**Splunk IR Agent**
-
-*Splunk Agentic Ops Hackathon 2026*
-
-**Splunk · MITRE ATT&CK · SPL · Python**
-
-End-to-end autonomous incident investigation triggered by a single alert — brute force, lateral movement, credential access, mapped to MITRE ATT&CK, IR report generated before an analyst opens their laptop.
-
-The security boundary treats the model as untrusted input. All six SPL templates are read-only `search` queries — no `collect`, `outputlookup`, or write-back commands exist anywhere in the codebase. Format-substituted fields are validated before insertion: `earliest`/`latest` against a strict regex allowlist, `index` against `[a-zA-Z0-9_\-]` only. A malicious model output cannot append `| outputlookup evil` to a query. The tool dispatch allowlist blocks unknown tool names before any Splunk call executes.
+Alert-triggered autonomous investigation that treats the model as untrusted input: every SPL template is read-only and every substituted field is allowlist-validated before execution.
 
 ---
 
 ## Foundations
 
-| Project | What it demonstrates |
-|---------|---------------------|
-| Gradient Descent from Scratch | Manual gradient descent vs. autograd — what optimizers actually compute, no black box |
-| GAN: Oxford Flowers | Adversarial training dynamics: generator vs. discriminator across 250 epochs |
+**Gradient Descent from Scratch**
 
-<img src="./img/flowers progression.png" alt="Generator Progression — Noise to Flowers across 250 epochs" width="720"/>
+Manual gradient descent implemented against autograd to show exactly what optimizers compute.
 
-**MIT xPro — Deep Learning: Mastering Neural Networks** <img src="./img/Deep Learning_ Mastering Neural Networks.png" alt="Cert" width="90"/>
+**GAN: Oxford Flowers**
+
+Generator versus discriminator training dynamics across 250 epochs.
+
+<img src="./img/flowers progression.png" alt="Generator Progression - Noise to Flowers across 250 epochs" width="720"/>
+
+**MIT xPro · Deep Learning: Mastering Neural Networks** <img src="./img/Deep Learning_ Mastering Neural Networks.png" alt="Cert" width="90"/>
 
 ---
 
@@ -191,44 +89,13 @@ The security boundary treats the model as untrusted input. All six SPL templates
 
 **MNIST Digit Recognition** · [![Live](https://img.shields.io/badge/Live-digits.di--sasso.com-blue?style=flat-square)](https://digits.di-sasso.com)
 
-Draw a digit → PyTorch CNN → per-digit confidence scores + Conv layer activation visualization in real time. Code is private — architecture and decisions documented below.
+Draw a digit and a PyTorch CNN returns per-digit confidences with live conv-layer activation maps, served at zero idle cost on Lambda, API Gateway, and S3.
 
 <img src="./img/draw.png" alt="MNIST draw canvas" width="340"/> <img src="./img/hiddenlayer.png" alt="Conv layer filter visualization" width="330"/>
 
-```mermaid
-graph LR
-    A["🖥️ React Canvas\nGitHub Pages"] -->|"POST {pixels: [784×float]}"| B["🔀 API Gateway\nHTTP API"]
-    B -->|Lambda event| C["⚡ Lambda\nlambda_handler"]
-    C -->|GetObject on cold start| D["🪣 S3\nmodel.pt"]
-    D -->|state_dict| C
-    C --> E["🧠 CNNClassifier\nPyTorch"]
-    E -->|"prediction + confidences\n+ conv1/conv2 maps"| C
-    C -->|"JSON {prediction, confidences,\nconv1, conv2}"| B
-    B -->|HTTP 200| A
-```
-
-| Component | Action → Result | Data Contract | Strengths | Weaknesses |
-|---|---|---|---|---|
-| **GitHub Pages** (React) | User draws on canvas → normalizes pixels → sends array | `POST {"pixels": [784 × float ∈ [0,1]]}` | Zero idle cost; served directly from repo `build/` branch | Canvas normalization must exactly match training preprocessing — mismatch silently degrades accuracy; no server-side env vars |
-| **API Gateway** (HTTP API) | Routes POST /predict → Lambda invocation; handles OPTIONS preflight | HTTP request → `{httpMethod, body, headers}` Lambda event | TLS, throttling, CORS at the edge with no app code | 29s hard timeout; adds ~10ms per hop |
-| **Lambda** (`lambda_handler`) | Parses event body → validates pixels → calls `run_inference()` → returns JSON | `{pixels:[...]} → {prediction, confidences, conv1, conv2}` | Zero idle cost; auto-scales to zero; no server to manage | Cold start 2–4s for a PyTorch container; stateless — model reloads from S3 each cold start |
-| **S3** (model weights) | Serves `model.pt` on Lambda cold start → cached at `/tmp/model.pt` for warm invocations | Binary `GetObject` → PyTorch state dict (~1.7 MB) | Weights decoupled from container — update model without rebuilding image | Adds ~300–500ms to first cold start; not a factor on warm invocations |
-| **ECR** (`public.ecr.aws/lambda/python:3.11`) | Provides Lambda-native Python runtime → consistent execution environment | Container image pull on cold start | Lambda-optimized base image; no dependency drift | Container cold start ~2× slower than a zip deployment of equivalent size |
-| **CNNClassifier** (PyTorch) | Normalizes `[1,1,28,28]` tensor → forward pass → extracts intermediate activations via hooks | `float32[1,1,28,28] → {int, [10 floats], [32×H×W], [64×H×W]}` | 1.7 MB; fast CPU inference; activation hooks expose what the model attends to | No adversarial hardening; brittle to preprocessing mismatch; MNIST-only domain |
-
-**Why these decisions**
-
-**Lambda over a persistent Flask server** — digit recognition sees bursty, infrequent traffic. A persistent server idles at cost 24/7. Lambda costs $0 at rest and handles any spike without configuration.
-
-**Lambda-native JSON handler over awsgi** — the original handler routed Lambda events through Flask's WSGI layer via `awsgi`. Removing it eliminated a translation layer and made the handler readable without Flask context. Flask still runs for local development; Lambda gets the raw handler.
-
-**S3 model loading over bundling weights in the container** — at 1.7 MB the weights could be bundled, but S3 separation means the model can be updated (retrained, quantized, swapped) without rebuilding and pushing a new container image.
-
-**Conv activation visualization** — not a demo flourish. The conv maps show what the model attends to per digit. On ambiguous pairs (3/8, 4/9) the activation shift is visible in real time — it's a lightweight, model-native explainability layer that costs nothing at inference time.
-
 **GPT-Nano Text Generation** · [![Live](https://img.shields.io/badge/Live-lstm.di--sasso.com-blue?style=flat-square)](https://lstm.di-sasso.com)
 
-Causal GPT-style transformer built from scratch — causal self-attention, BPE tokenization, weight tying, cosine LR decay. 7M params trained on WikiText-2 via a full AWS ML pipeline: S3 → SageMaker Training Job (RTX T4) → Serverless Endpoint → API Gateway + Lambda → React. Deployed at zero idle cost.
+A 7M-parameter GPT-style transformer built from scratch, trained on WikiText-2 through an AWS SageMaker pipeline and deployed serverless at zero idle cost.
 
 <img src="./img/lstm.png" alt="GPT-nano next-token probability bars" width="700"/>
 
