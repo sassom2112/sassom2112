@@ -1,103 +1,106 @@
 # Adversarial ML Researcher · AI Red Teamer · Agentic Security Engineer
 
-> I break AI systems. Then I build ones that hold.
->
-> Every model here was attacked after it was trained, and every agentic system assumes the adversary controls the input.
-
----
-
 ## Adversarial ML
 
 **Fashion-MNIST CNN**
 
-GradCAM traced the Shirt class to an unstable decision boundary, and FGSM at ε=0.10 collapsed accuracy from 82% to 4%.
+FGSM at ε=0.10 drops accuracy from 82% to 4%.
 
-<img src="./img/fashionmnist_gradcam.png" alt="GradCAM activations - all 10 garment classes" width="720"/>
-<img src="./img/fashionmnist_fgsm_per_class.png" alt="Per-class accuracy drop under FGSM (ε=0.10)" width="600"/>
+<img src="./img/fashionmnist_gradcam.png" alt="GradCAM activations for all 10 garment classes" width="720"/>
+
+*GradCAM activations across all 10 classes.*
+
+<img src="./img/fashionmnist_fgsm_per_class.png" alt="Per-class accuracy drop under FGSM" width="600"/>
+
+*Per-class accuracy under FGSM attack.*
 
 **VGG-11 Traffic Sign Classification**
 
-Fine-tuned VGG-11 to 93.2% on GTSRB, where GradCAM shows the speed limit classifier keys on background context rather than the sign itself, the same failure mode behind physical adversarial patches.
+Fine-tuned to 93.2% on GTSRB, but GradCAM shows the model reads background context instead of the sign.
 
-<img src="./img/vgg11_gradcam.png" alt="GradCAM - VGG-11 attention heatmaps on GTSRB" width="720"/>
+<img src="./img/vgg11_gradcam.png" alt="GradCAM attention heatmaps on GTSRB" width="720"/>
+
+*GradCAM attention heatmaps on GTSRB.*
 
 **Wine Color Classification**
 
-A statistically near-perfect classifier (F1 0.9938) flips on a 0.09 mg/L SO₂ perturbation, and the features SHAP ranks most important are exactly the ones FGSM exploits.
+A 0.9938 F1 classifier flips on a 0.09 mg/L SO₂ perturbation.
 
-<img src="./img/wine_epsilon.png" alt="Decision Boundary Distance + Robustness vs Confidence" width="620"/>
+<img src="./img/wine_epsilon.png" alt="Decision boundary distance and robustness vs confidence" width="620"/>
 
-**Network Intrusion Detection: IDS Red Teaming and Hardening**
+*Decision boundary distance and robustness vs confidence.*
 
-Built and attacked an XGBoost IDS on 2.54M UNSW-NB15 flows with domain-constrained FGSM/PGD and black-box transfer attacks, then PGD adversarial training restored F1 at ε=0.20 from 0.27 to 0.95 with no clean-accuracy cost.
+**Network Intrusion Detection**
 
-<p align="center">
-  <img src="./img/fig_shap_beeswarm.png" alt="SHAP Beeswarm - Top Features by Impact" width="560"/>
-</p>
-<p align="center">
-  <img src="./img/fig_hardening_comparison.png" alt="Standard vs. Adversarially Trained MLP - F1 and Evasion Rate vs Epsilon" width="800"/>
-</p>
+Attacked an XGBoost IDS on 2.54M UNSW-NB15 flows, then adversarial training restored F1 at ε=0.20 from 0.27 to 0.95.
 
-**CATT-CCS: Constraint Inflation in Adversarial NIDS Evaluation**
+<img src="./img/fig_shap_beeswarm.png" alt="SHAP beeswarm of top features" width="560"/>
 
-Research paper targeting ACM CCS 2027 showing that unconstrained gradient attacks inflate published NIDS evasion rates by 14 to 71 percentage points across three datasets by generating physically impossible traffic.
+*SHAP top features by impact.*
 
-**OT Anomaly Detection: Replay Attack Blind Spot**
+<img src="./img/fig_hardening_comparison.png" alt="Standard vs adversarially trained MLP under attack" width="800"/>
 
-HDBSCAN and K-Means both miss Modbus/TCP replay attacks on ICSSim data because replayed traffic is statistically normal at every layer a single-layer detector can observe.
+*Standard vs adversarially trained MLP under attack.*
 
----
+**CATT-CCS**
+
+Research paper targeting ACM CCS 2027: unconstrained gradient attacks inflate published NIDS evasion rates by 14 to 71 percentage points.
+
+**OT Anomaly Detection**
+
+HDBSCAN and K-Means both miss Modbus/TCP replay attacks because replayed traffic is statistically normal at the layer they observe.
 
 ## Agentic Security
 
-**VERITAS: Autonomous Windows Forensic Investigation** · *SANS FIND EVIL! Hackathon 2026*
+**VERITAS** · *SANS FIND EVIL! Hackathon 2026*
 
-Three-phase forensic pipeline in which an isolated adversarial auditor refuted 7 of 9 triage findings before they reached the report, blocking false accusations architecturally rather than by prompt.
+Autonomous Windows forensic pipeline whose isolated auditor refuted 7 of 9 triage findings before they reached the report.
 
-<p align="center">
-  <img src="./img/adversa-architecture.png" alt="VERITAS Layered Forensic Architecture" height="200"/>
-  <img src="./img/adversa-guardrails.png" alt="VERITAS Guardrails - 4-gate validator" height="200"/>
-</p>
+<img src="./img/adversa-architecture.png" alt="VERITAS layered forensic architecture" height="200"/> <img src="./img/adversa-guardrails.png" alt="VERITAS 4-gate validator" height="200"/>
+
+*Layered architecture and 4-gate validator.*
 
 **Elastic IR Agent** · *Elastic × Google Cloud Agent Builder Hackathon 2026*
 
-Autonomous IR agent over 73,909 real Windows attack events, with memory hard-scoped per session so IOC contamination between cases is blocked at the dispatch layer, not by prompt instruction.
+Autonomous IR agent over 73,909 Windows attack events with session-scoped memory that blocks cross-case IOC contamination.
 
 **Splunk IR Agent** · *Splunk Agentic Ops Hackathon 2026*
 
-Alert-triggered autonomous investigation that treats the model as untrusted input: every SPL template is read-only and every substituted field is allowlist-validated before execution.
-
----
+Alert-triggered autonomous investigation with read-only, allowlist-validated SPL.
 
 ## Foundations
 
 **Gradient Descent from Scratch**
 
-Manual gradient descent implemented against autograd to show exactly what optimizers compute.
+Manual gradient descent implemented and compared against autograd.
 
 **GAN: Oxford Flowers**
 
-Generator versus discriminator training dynamics across 250 epochs.
+Generator vs discriminator across 250 epochs.
 
-<img src="./img/flowers progression.png" alt="Generator Progression - Noise to Flowers across 250 epochs" width="720"/>
+<img src="./img/flowers progression.png" alt="Generator progression from noise to flowers" width="720"/>
+
+*Generator progression from noise to flowers.*
 
 **MIT xPro · Deep Learning: Mastering Neural Networks** <img src="./img/Deep Learning_ Mastering Neural Networks.png" alt="Cert" width="90"/>
-
----
 
 ## Deployed Applications
 
 **MNIST Digit Recognition** · [![Live](https://img.shields.io/badge/Live-digits.di--sasso.com-blue?style=flat-square)](https://digits.di-sasso.com)
 
-Draw a digit and a PyTorch CNN returns per-digit confidences with live conv-layer activation maps, served at zero idle cost on Lambda, API Gateway, and S3.
+Draw a digit and a PyTorch CNN returns per-digit confidences with live conv activations, serverless on AWS.
 
 <img src="./img/draw.png" alt="MNIST draw canvas" width="340"/> <img src="./img/hiddenlayer.png" alt="Conv layer filter visualization" width="330"/>
 
+*Draw canvas and conv layer visualization.*
+
 **GPT-Nano Text Generation** · [![Live](https://img.shields.io/badge/Live-lstm.di--sasso.com-blue?style=flat-square)](https://lstm.di-sasso.com)
 
-A 7M-parameter GPT-style transformer built from scratch, trained on WikiText-2 through an AWS SageMaker pipeline and deployed serverless at zero idle cost.
+7M-parameter GPT-style transformer trained on WikiText-2 via SageMaker, deployed serverless.
 
 <img src="./img/lstm.png" alt="GPT-nano next-token probability bars" width="700"/>
+
+*Next-token probability output.*
 
 ---
 
