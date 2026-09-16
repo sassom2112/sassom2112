@@ -68,6 +68,16 @@ Autonomous IR agent over 73,909 Windows attack events with session-scoped memory
 
 Alert-triggered autonomous investigation with read-only, allowlist-validated SPL.
 
+## RF / Wireless Security
+
+**Rayhunter — Cell-Site-Simulator Detection** · [![PR #1151](https://img.shields.io/badge/EFForg%2Frayhunter-PR%20%231151%20merged-brightgreen?style=flat-square)](https://github.com/EFForg/rayhunter/pull/1151)
+
+Merged contributor to [EFF Rayhunter](https://github.com/EFForg/rayhunter), the open-source IMSI-catcher detector. Built [**rh-pipeline**](https://github.com/sassom2112/rh-pipeline) — a `tshark` summary + baseline-diff layer over `rayhunter-check` that flags cell-site-simulator anomalies: new cell / TAC / EARFCN, SIB-chain manipulation, 2G-downgrade vectors, and cleartext-IMSI paging. Empirically established that 5 of 7 analyzers stay live on a deactivated SIM ([COVERAGE.md](https://github.com/sassom2112/rh-pipeline/blob/main/COVERAGE.md)).
+
+**WarDragon — Multi-Domain SIGINT Field Kit**
+
+DIY SDR + cellular + drone/SATCOM survey build feeding DragonOS. Passive, read-only monitoring; captures and location data kept private.
+
 ## Foundations
 
 **Gradient Descent from Scratch**
