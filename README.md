@@ -1,4 +1,4 @@
-# Adversarial ML Researcher · AI R3d T34m3r · Agentic Security Engineer
+# Adversarial ML Researcher 
 
 ## Adversarial ML
 
